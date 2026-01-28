@@ -21,24 +21,25 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "RIPPLE 2026 - A Festival of Innovation, Culture & Creativity",
+  title: "TechSprint 2K26 - 24 Hour Hackathon | Win an Internship",
   description:
-    "Join us for RIPPLE 2026, the ultimate college fest featuring technical competitions, cultural events, workshops, gaming tournaments, and more. Register now!",
+    "Join TechSprint 2K26, a 24-hour national level hackathon. Compete in IdeateX and CodeJam phases for a chance to win an internship at a top tech company!",
   keywords: [
-    "college fest",
-    "RIPPLE 2026",
-    "tech fest",
-    "cultural fest",
-    "workshops",
-    "gaming",
+    "hackathon",
+    "TechSprint 2026",
+    "coding competition",
+    "ideathon",
+    "codathon",
+    "internship",
+    "RGMCET",
   ],
   openGraph: {
-    title: "RIPPLE 2026 - A Festival of Innovation, Culture & Creativity",
+    title: "TechSprint 2K26 - 24 Hour Hackathon | Win an Internship",
     description:
-      "Join us for RIPPLE 2026, the ultimate college fest featuring technical competitions, cultural events, workshops, and gaming tournaments.",
+      "Join TechSprint 2K26, a 24-hour national level hackathon. IdeateX → CodeJam → Win an Internship!",
     type: "website",
   },
-  generator: 'v0.app'
+  generator: 'TechSprint'
 };
 
 export const viewport: Viewport = {

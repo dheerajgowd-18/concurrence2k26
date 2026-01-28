@@ -1,14 +1,16 @@
 import { Hero } from "@/components/home/hero";
-import { FeaturedEvents } from "@/components/home/featured-events";
+import { PhasesSection } from "@/components/home/phases-section";
+import { JudgesCarousel } from "@/components/home/judges-carousel";
+import { PrizesSection } from "@/components/home/prizes-section";
 import { About } from "@/components/home/about";
-import { ScheduleSection } from "@/components/home/schedule-section";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <FeaturedEvents />
-      <ScheduleSection />
+      <PhasesSection />
+      <JudgesCarousel />
+      <PrizesSection />
       <About />
     </>
   );

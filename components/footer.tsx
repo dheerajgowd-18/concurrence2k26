@@ -1,21 +1,22 @@
 import Link from "next/link";
-import { Sparkles, Instagram, Twitter, Facebook, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
-import { collegeInfo, festInfo } from "@/lib/data";
+import Image from "next/image";
+import { Instagram, Twitter, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
+import { collegeInfo, techSprintInfo, socialLinks } from "@/lib/data";
 
 const quickLinks = [
   { href: "/", label: "Home" },
-  { href: "/events", label: "Events" },
-  { href: "/#schedule", label: "Schedule" },
-  { href: "/#about", label: "About" },
+  { href: "#phases", label: "Phases" },
+  { href: "#judges", label: "Judges" },
+  { href: "#prizes", label: "Prizes" },
+  { href: "#about", label: "About" },
 ];
 
-const socialIcons = [
-  { href: collegeInfo.social.instagram, icon: Instagram, label: "Instagram" },
-  { href: collegeInfo.social.twitter, icon: Twitter, label: "Twitter" },
-  { href: collegeInfo.social.facebook, icon: Facebook, label: "Facebook" },
-  { href: collegeInfo.social.linkedin, icon: Linkedin, label: "LinkedIn" },
-  { href: collegeInfo.social.youtube, icon: Youtube, label: "YouTube" },
-];
+const socialIcons = {
+  instagram: Instagram,
+  twitter: Twitter,
+  linkedin: Linkedin,
+  youtube: Youtube,
+};
 
 export function Footer() {
   return (
@@ -25,21 +26,30 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1 space-y-4">
             <Link href="/" className="inline-flex items-center gap-2">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-white" />
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-white/5 flex items-center justify-center">
+                <Image
+                  src="/college-logo.png"
+                  alt="TechSprint Logo"
+                  width={40}
+                  height={40}
+                  className="w-9 h-9 object-contain"
+                />
               </div>
-              <span
-                className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"
-                style={{ fontFamily: "var(--font-orbitron), sans-serif" }}
-              >
-                RIPPLE
-              </span>
+              <div>
+                <span
+                  className="block text-base font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"
+                  style={{ fontFamily: "var(--font-orbitron), sans-serif" }}
+                >
+                  TECHSPRINT
+                </span>
+                <span className="text-[10px] text-white/30">2K26</span>
+              </div>
             </Link>
             <p className="text-white/40 text-xs sm:text-sm leading-relaxed">
-              {festInfo.tagline}
+              {techSprintInfo.tagline}
             </p>
             <p className="text-white/30 text-xs">
-              {festInfo.dates.start} - {festInfo.dates.end}
+              {techSprintInfo.dates.start} - {techSprintInfo.dates.end}
             </p>
           </div>
 
@@ -51,7 +61,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-white/40 hover:text-cyan-400 transition-colors text-xs sm:text-sm"
+                    className="text-white/40 text-xs hover:text-cyan-400 transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -63,18 +73,18 @@ export function Footer() {
           {/* Contact */}
           <div>
             <h3 className="font-semibold text-white text-sm mb-4">Contact</h3>
-            <ul className="space-y-2">
-              <li className="flex items-start gap-2 text-xs text-white/40">
-                <MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-cyan-400" />
-                <span className="leading-relaxed">{collegeInfo.address}</span>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-2">
+                <MapPin className="w-3 h-3 text-cyan-400 mt-1 flex-shrink-0" />
+                <span className="text-white/40 text-xs">{collegeInfo.shortName}, Nandyal</span>
               </li>
-              <li className="flex items-center gap-2 text-xs text-white/40">
-                <Phone className="w-3.5 h-3.5 flex-shrink-0 text-cyan-400" />
-                <span>{collegeInfo.phone}</span>
+              <li className="flex items-center gap-2">
+                <Phone className="w-3 h-3 text-cyan-400 flex-shrink-0" />
+                <span className="text-white/40 text-xs">{collegeInfo.phone}</span>
               </li>
-              <li className="flex items-center gap-2 text-xs text-white/40">
-                <Mail className="w-3.5 h-3.5 flex-shrink-0 text-cyan-400" />
-                <span>{collegeInfo.email}</span>
+              <li className="flex items-center gap-2">
+                <Mail className="w-3 h-3 text-cyan-400 flex-shrink-0" />
+                <span className="text-white/40 text-xs">{collegeInfo.email}</span>
               </li>
             </ul>
           </div>
@@ -82,30 +92,32 @@ export function Footer() {
           {/* Social */}
           <div>
             <h3 className="font-semibold text-white text-sm mb-4">Follow Us</h3>
-            <div className="flex flex-wrap gap-2">
-              {socialIcons.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500/30 transition-all duration-200 group"
-                  aria-label={social.label}
-                >
-                  <social.icon className="w-4 h-4 text-white/40 group-hover:text-cyan-400 transition-colors" />
-                </a>
-              ))}
+            <div className="flex gap-3">
+              {socialLinks.map((social) => {
+                const Icon = socialIcons[social.platform as keyof typeof socialIcons];
+                return Icon ? (
+                  <a
+                    key={social.platform}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-colors group"
+                  >
+                    <Icon className="w-4 h-4 text-white/40 group-hover:text-cyan-400 transition-colors" />
+                  </a>
+                ) : null;
+              })}
             </div>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-3 text-center">
-          <p className="text-xs text-white/30">
-            © 2026 {festInfo.name}. All rights reserved.
+        {/* Bottom Bar */}
+        <div className="mt-10 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-white/30 text-xs">
+            © 2026 TechSprint. {collegeInfo.department}
           </p>
-          <p className="text-xs text-white/30">
-            {collegeInfo.shortName}
+          <p className="text-white/20 text-xs">
+            {collegeInfo.name}
           </p>
         </div>
       </div>
