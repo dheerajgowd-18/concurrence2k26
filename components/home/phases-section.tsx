@@ -27,8 +27,8 @@ const phaseStyles = {
 export function PhasesSection() {
     return (
         <section id="phases" className="py-20 sm:py-28 relative overflow-hidden">
-            {/* Background */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            {/* Background - Unique diagonal lines */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-yellow-500/0 via-yellow-500/20 to-cyan-500/20" />
 
             <div className="container mx-auto px-4">
                 {/* Header */}
@@ -68,10 +68,10 @@ export function PhasesSection() {
                         return (
                             <motion.div
                                 key={phase.id}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, scale: 0.95, x: index === 0 ? -20 : 20 }}
+                                whileInView={{ opacity: 1, scale: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: index * 0.2 }}
+                                transition={{ delay: index * 0.15, type: "spring", stiffness: 100 }}
                                 className="group"
                             >
                                 <div className={cn(

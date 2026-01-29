@@ -1,90 +1,153 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { ExternalLink, Users, Clock, Trophy } from "lucide-react";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Register | TechSprint 2K26",
-  description:
-    "Register your team for TechSprint 2K26 hackathon. Form a team of 3-5 members and compete in IdeateX and CodeJam for a chance to win an internship!",
-};
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { ExternalLink, Users, Clock, Trophy, Calendar, Award, Sparkles, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/moving-border";
 
 // TODO: Replace this with your actual Google Form URL
 const GOOGLE_FORM_URL = "https://forms.google.com/your-form-url";
 
 export default function RegisterPage() {
   return (
-    <main className="min-h-screen pt-24 pb-12">
+    <main className="min-h-screen pt-20 pb-12 relative overflow-hidden">
       {/* Background Glow */}
-      <div className="fixed top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[200px] -z-10" />
-      <div className="fixed bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[200px] -z-10" />
+      <div className="fixed top-1/4 left-1/4 w-[400px] h-[400px] bg-cyan-500/8 rounded-full blur-[150px] -z-10" />
+      <div className="fixed bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/8 rounded-full blur-[150px] -z-10" />
 
       <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Register for{" "}
+        {/* Back Link */}
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="mb-6"
+        >
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs text-white/40 hover:text-white/70 transition-colors"
+          >
+            <ArrowLeft className="w-3 h-3" />
+            Back to Home
+          </Link>
+        </motion.div>
+
+        {/* Compact Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-8"
+        >
+          <div className="inline-flex items-center gap-2 mb-3 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="text-[11px] uppercase tracking-widest text-cyan-400 font-medium">Registrations Open</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
+            Join{" "}
             <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
               TechSprint 2K26
             </span>
           </h1>
-          <p className="text-white/60 max-w-2xl mx-auto text-lg">
-            Form your team of 3-5 members and compete in IdeateX and CodeJam for a chance to win an internship!
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 mt-6">
-            <span className="px-4 py-2 rounded-full bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-sm font-medium">
-              💡 IdeateX — Pitch Phase
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] text-xs text-white/60">
+              <Calendar className="w-3 h-3 text-cyan-400" />
+              Feb 27-28, 2026
             </span>
-            <span className="px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-sm font-medium">
-              {"</>"} CodeJam — 24hr Coding
-            </span>
-            <span className="px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm font-medium">
-              🎯 Win an Internship
+            <span className="inline-flex items-center px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs text-purple-400 font-medium">
+              National Level
             </span>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Registration Card */}
-        <div className="max-w-2xl mx-auto">
-          <div className="rounded-2xl bg-white/[0.02] border border-white/[0.08] p-8 text-center space-y-8">
-            <h2 className="text-2xl font-semibold text-white">
-              Ready to Participate?
-            </h2>
+        {/* Main Card - 2 Column Layout */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="max-w-3xl mx-auto"
+        >
+          <div className="relative rounded-2xl bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-white/[0.08] overflow-hidden">
+            {/* Glowing top border */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
 
-            {/* Info Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                <Users className="w-6 h-6 text-cyan-400 mx-auto mb-2" />
-                <p className="text-white font-medium">Team Size</p>
-                <p className="text-white/50 text-sm">3-5 Members</p>
+            <div className="grid md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-white/[0.06]">
+              {/* Left - Benefits (2 cols) */}
+              <div className="md:col-span-2 p-5 sm:p-6">
+                <h3 className="text-sm font-semibold text-white/80 mb-4">What You'll Get</h3>
+                <ul className="space-y-3">
+                  {[
+                    { icon: Trophy, text: "Cash Prizes up to ₹30,000", color: "text-yellow-400" },
+                    { icon: Award, text: "Internship Opportunities", color: "text-purple-400" },
+                    { icon: Users, text: "Industry Networking", color: "text-cyan-400" },
+                  ].map((item, i) => (
+                    <motion.li
+                      key={item.text}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.2 + i * 0.1 }}
+                      className="flex items-center gap-2.5"
+                    >
+                      <div className={`w-6 h-6 rounded-lg bg-white/[0.05] flex items-center justify-center`}>
+                        <item.icon className={`w-3.5 h-3.5 ${item.color}`} />
+                      </div>
+                      <span className="text-white/70 text-sm">{item.text}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-[11px] text-cyan-400/60">
+                  🎓 All participants receive a certificate
+                </p>
               </div>
-              <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                <Clock className="w-6 h-6 text-purple-400 mx-auto mb-2" />
-                <p className="text-white font-medium">Duration</p>
-                <p className="text-white/50 text-sm">24 Hours</p>
-              </div>
-              <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                <Trophy className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
-                <p className="text-white font-medium">Prize</p>
-                <p className="text-white/50 text-sm">Internship + Cash</p>
+
+              {/* Right - CTA (3 cols) */}
+              <div className="md:col-span-3 p-5 sm:p-6 flex flex-col justify-center">
+                {/* Quick Stats */}
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {[
+                    { icon: Users, label: "3-5 Members" },
+                    { icon: Clock, label: "24 Hours" },
+                  ].map((stat) => (
+                    <div
+                      key={stat.label}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-[11px] text-white/60"
+                    >
+                      <stat.icon className="w-3 h-3" />
+                      {stat.label}
+                    </div>
+                  ))}
+                </div>
+
+                <h2 className="text-lg sm:text-xl font-semibold text-white mb-2">
+                  Ready to Compete?
+                </h2>
+                <p className="text-white/40 text-xs mb-5">
+                  Form your team and register through Google Forms
+                </p>
+
+                {/* CTA Button with Rotating Border */}
+                <a
+                  href={GOOGLE_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button
+                    borderRadius="0.75rem"
+                    containerClassName="h-12 w-full"
+                    className="bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-cyan-500/30 text-sm font-semibold gap-2"
+                    borderClassName="bg-[radial-gradient(#22d3ee_40%,transparent_60%)]"
+                    duration={3000}
+                  >
+                    Register Now
+                    <ExternalLink className="w-4 h-4" />
+                  </Button>
+                </a>
+
+                <p className="mt-3 text-[10px] text-white/30 text-center">
+                  Opens in Google Forms
+                </p>
               </div>
             </div>
-
-            {/* Register Button */}
-            <a
-              href={GOOGLE_FORM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full hover:from-cyan-400 hover:to-purple-400 transition-all duration-300 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
-            >
-              Register via Google Form
-              <ExternalLink className="w-5 h-5" />
-            </a>
-
-            <p className="text-white/40 text-sm">
-              You will be redirected to Google Forms to complete your registration.
-            </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </main>
   );

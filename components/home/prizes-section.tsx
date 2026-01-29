@@ -1,151 +1,123 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Briefcase, Trophy, Medal, Sparkles } from "lucide-react";
+import { Briefcase, Trophy, Medal, Award, Zap } from "lucide-react";
 import { prizes } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
-const iconMap = {
-    briefcase: Briefcase,
-    trophy: Trophy,
-    medal: Medal,
-};
-
 export function PrizesSection() {
     return (
-        <section id="prizes" className="py-20 sm:py-28 relative overflow-hidden">
-            {/* Background */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-            {/* Golden glow for prizes */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-yellow-500/5 rounded-full blur-[150px] -z-10" />
+        <section id="prizes" className="py-16 sm:py-24 relative overflow-hidden">
+            {/* Background - Subtle glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-amber-500/5 rounded-full blur-[120px] -z-10" />
 
             <div className="container mx-auto px-4">
-                {/* Header */}
+                {/* Compact Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-16"
+                    className="text-center mb-10"
                 >
-                    <motion.div
-                        initial={{ scale: 0 }}
-                        whileInView={{ scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ type: "spring", stiffness: 200 }}
-                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 mb-6"
-                    >
-                        <Sparkles className="w-8 h-8 text-yellow-400" />
-                    </motion.div>
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-                        Grand <span className="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">Prizes</span>
+                    <div className="inline-flex items-center gap-2 mb-3">
+                        <Trophy className="w-5 h-5 text-amber-400" />
+                        <span className="text-xs uppercase tracking-widest text-amber-400/80 font-medium">Win Big</span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+                        <span className="text-white">Grand </span>
+                        <span className="bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent">Prizes</span>
                     </h2>
-                    <p className="text-white/40 max-w-lg mx-auto text-sm sm:text-base">
-                        Win an internship and kickstart your tech career
-                    </p>
                 </motion.div>
 
-                {/* Prizes Grid */}
-                <div className="grid gap-4 sm:gap-6 max-w-5xl mx-auto md:grid-cols-3">
+                {/* Prize Cards - Compact Horizontal Style */}
+                <div className="max-w-4xl mx-auto space-y-3">
                     {prizes.map((prize, index) => {
-                        const Icon = iconMap[prize.icon as keyof typeof iconMap] || Trophy;
-                        const isHighlight = prize.highlight;
+                        const isWinner = prize.position === "winner";
+                        const isRunnerUp = prize.position === "runner-up";
 
                         return (
                             <motion.div
                                 key={prize.position}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, x: isWinner ? 0 : (index === 0 ? -20 : 20) }}
+                                whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: index * 0.15 }}
+                                transition={{ delay: isWinner ? 0 : 0.1 + index * 0.1 }}
                                 className={cn(
-                                    "relative group",
-                                    isHighlight && "md:-mt-8 md:mb-8 order-first md:order-none"
+                                    "group relative",
+                                    isWinner && "order-first"
                                 )}
                             >
                                 <div className={cn(
-                                    "relative overflow-hidden rounded-3xl border transition-all duration-500",
-                                    isHighlight
-                                        ? "bg-gradient-to-br from-yellow-500/10 to-orange-500/5 border-yellow-500/30 hover:border-yellow-400/50 shadow-2xl shadow-yellow-500/10"
-                                        : "bg-white/[0.02] border-white/[0.08] hover:border-white/20"
+                                    "relative flex items-center gap-4 p-4 sm:p-5 rounded-2xl border transition-all duration-300",
+                                    isWinner
+                                        ? "bg-gradient-to-r from-amber-500/10 via-yellow-500/5 to-amber-500/10 border-amber-500/30 hover:border-amber-400/50"
+                                        : isRunnerUp
+                                            ? "bg-gradient-to-r from-slate-400/5 to-slate-300/5 border-slate-400/20 hover:border-slate-300/40"
+                                            : "bg-white/[0.02] border-white/[0.08] hover:border-white/20"
                                 )}>
-                                    {/* Highlight glow effect */}
-                                    {isHighlight && (
-                                        <>
-                                            <div className="absolute -top-20 -right-20 w-40 h-40 bg-yellow-500/20 rounded-full blur-[80px]" />
-                                            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-500" />
-                                        </>
-                                    )}
-
+                                    {/* Rank Badge */}
                                     <div className={cn(
-                                        "relative p-6 sm:p-8 text-center space-y-4",
-                                        isHighlight && "py-10"
+                                        "flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center font-bold text-lg",
+                                        isWinner
+                                            ? "bg-gradient-to-br from-amber-400 to-yellow-500 text-black"
+                                            : isRunnerUp
+                                                ? "bg-gradient-to-br from-slate-300 to-slate-400 text-slate-800"
+                                                : "bg-gradient-to-br from-amber-700/80 to-amber-800 text-amber-200"
                                     )}>
-                                        {/* Position Badge */}
-                                        <div className={cn(
-                                            "inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider",
-                                            isHighlight
-                                                ? "bg-gradient-to-r from-yellow-500 to-orange-500 text-black"
-                                                : "bg-white/10 text-white/60"
-                                        )}>
-                                            {prize.position === "winner" ? "🏆 Winner" : prize.position === "runner-up" ? "Runner-up" : "Third Place"}
-                                        </div>
+                                        {isWinner ? "1st" : isRunnerUp ? "2nd" : "3rd"}
+                                    </div>
 
-                                        {/* Icon */}
-                                        <motion.div
-                                            whileHover={{ rotate: 10, scale: 1.1 }}
-                                            className={cn(
-                                                "mx-auto w-20 h-20 rounded-2xl flex items-center justify-center border",
-                                                isHighlight
-                                                    ? "bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500/30"
-                                                    : "bg-white/[0.05] border-white/10"
+                                    {/* Content */}
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
+                                            <h3 className={cn(
+                                                "font-bold text-sm sm:text-base",
+                                                isWinner ? "text-amber-300" : "text-white"
+                                            )}>
+                                                {prize.title}
+                                            </h3>
+                                            {isWinner && (
+                                                <span className="self-start px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 text-[9px] sm:text-[10px] font-semibold uppercase">
+                                                    Grand Prize
+                                                </span>
                                             )}
-                                        >
-                                            <Icon className={cn(
-                                                "w-10 h-10",
-                                                isHighlight ? "text-yellow-400" : "text-white/60"
-                                            )} />
-                                        </motion.div>
-
-                                        {/* Title */}
-                                        <h3 className={cn(
-                                            "text-2xl sm:text-3xl font-bold",
-                                            isHighlight
-                                                ? "bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent"
-                                                : "text-white"
-                                        )}>
-                                            {prize.title}
-                                        </h3>
-
-                                        {/* Description */}
-                                        <p className={cn(
-                                            "text-sm leading-relaxed",
-                                            isHighlight ? "text-white/70" : "text-white/50"
-                                        )}>
+                                        </div>
+                                        <p className="text-white/50 text-[11px] sm:text-xs leading-relaxed">
                                             {prize.description}
                                         </p>
+                                    </div>
 
-                                        {/* CTA for winner */}
-                                        {isHighlight && (
-                                            <motion.div
-                                                initial={{ opacity: 0 }}
-                                                whileInView={{ opacity: 1 }}
-                                                viewport={{ once: true }}
-                                                transition={{ delay: 0.5 }}
-                                                className="pt-4"
-                                            >
-                                                <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 text-yellow-400 text-sm font-semibold">
-                                                    <Briefcase className="w-4 h-4" />
-                                                    Career Opportunity
-                                                </span>
-                                            </motion.div>
-                                        )}
+                                    {/* Internship Badge */}
+                                    <div className={cn(
+                                        "hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium",
+                                        isWinner
+                                            ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+                                            : "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                                    )}>
+                                        <Briefcase className="w-3 h-3" />
+                                        Internship
                                     </div>
                                 </div>
                             </motion.div>
                         );
                     })}
                 </div>
+
+                {/* Bottom CTA */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 }}
+                    className="text-center mt-8 space-y-1"
+                >
+                    <p className="text-white/40 text-xs">
+                        Top 3 teams receive internship opportunities + cash prizes
+                    </p>
+                    <p className="text-cyan-400/60 text-[11px]">
+                        🎓 All participants receive a certificate of participation
+                    </p>
+                </motion.div>
             </div>
         </section>
     );

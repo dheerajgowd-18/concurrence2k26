@@ -36,6 +36,19 @@
   --glow-blue: oklch(0.7 0.2 250 / 0.5);
   --glow-cyan: oklch(0.75 0.2 200 / 0.5);
   --glow-purple: oklch(0.6 0.25 290 / 0.5);
+
+  /* Design System Tokens */
+  --section-py: 5rem;
+  --section-py-sm: 7rem;
+  --card-radius: 1.5rem;
+  --card-radius-lg: 1.75rem;
+  --btn-height-sm: 2.25rem;
+  --btn-height-md: 2.75rem;
+  --btn-height-lg: 3rem;
+  --icon-xs: 0.75rem;
+  --icon-sm: 1rem;
+  --icon-md: 1.25rem;
+  --icon-lg: 1.5rem;
 }
 
 @theme inline {
@@ -199,5 +212,5 @@
 }
 
 .animate-scroll {
-  animation: scroll 25s linear infinite;
+  animation: scroll 15s linear infinite;
 }

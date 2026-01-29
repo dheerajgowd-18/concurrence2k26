@@ -104,7 +104,7 @@ export function Hero() {
             </span>
             <ArrowRight className="w-4 h-4 text-white/30 hidden sm:block" />
             <span className="text-white/30 sm:hidden">→</span>
-            <span className="px-3 py-1.5 text-xs sm:text-sm font-semibold text-emerald-400 bg-emerald-400/10 border border-emerald-400/30 rounded-full">
+            <span className="px-3 py-1.5 text-xs sm:text-sm font-semibold text-purple-400 bg-purple-400/10 border border-purple-400/30 rounded-full">
               🎯 Internship
             </span>
           </motion.div>

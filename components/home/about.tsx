@@ -1,162 +1,144 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Globe, ExternalLink, Calendar, Users } from "lucide-react";
+import { MapPin, Phone, Mail, ExternalLink, Calendar, Users, Zap, Target } from "lucide-react";
 import { collegeInfo, techSprintInfo, coordinators } from "@/lib/data";
 
 export function About() {
   return (
-    <section id="about" className="py-20 sm:py-28 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+    <section id="about" className="py-16 sm:py-24 relative overflow-hidden">
+      {/* Subtle background glow */}
+      <div className="absolute top-1/3 right-0 w-[300px] h-[300px] bg-cyan-500/5 rounded-full blur-[100px] -z-10" />
+      <div className="absolute bottom-1/3 left-0 w-[300px] h-[300px] bg-purple-500/5 rounded-full blur-[100px] -z-10" />
 
       <div className="container mx-auto px-4">
-        {/* Header */}
+        {/* Compact Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-10"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+          <div className="inline-flex items-center gap-2 mb-3">
+            <Target className="w-4 h-4 text-cyan-400" />
+            <span className="text-xs uppercase tracking-widest text-cyan-400/80 font-medium">The Event</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
             About <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">TechSprint</span>
           </h2>
-          <p className="text-white/40 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+          <p className="text-white/50 max-w-xl mx-auto text-sm leading-relaxed">
             {techSprintInfo.description}
           </p>
         </motion.div>
 
-        {/* Quick Info Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 max-w-4xl mx-auto">
-          {[
-            { icon: Calendar, label: "Date", value: "Feb 27-28, 2026" },
-            { icon: Users, label: "Team Size", value: "3-5 Members" },
-            { icon: MapPin, label: "Mode", value: "Offline" },
-            { icon: Globe, label: "Level", value: "National" },
-          ].map((item, index) => (
-            <motion.div
-              key={item.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center"
-            >
-              <item.icon className="w-5 h-5 mx-auto mb-2 text-cyan-400" />
-              <p className="text-white/40 text-xs mb-1">{item.label}</p>
-              <p className="text-white font-medium text-sm">{item.value}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          {/* Map */}
+        {/* Bento Grid Layout - Unique Design */}
+        <div className="max-w-4xl mx-auto">
+          {/* Top Row - Stats Strip */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="rounded-2xl overflow-hidden bg-white/[0.02] border border-white/[0.06] h-[300px]"
+            className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-4"
           >
-            <iframe
-              src={collegeInfo.mapEmbed}
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="College Location Map"
-              className="grayscale hover:grayscale-0 transition-all duration-500"
-            />
-          </motion.div>
-
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="rounded-2xl bg-white/[0.02] border border-white/[0.06] p-6 space-y-4"
-          >
-            <h3 className="text-lg font-semibold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              Venue & Contact
-            </h3>
-
-            <div className="space-y-3">
-              {/* College Name */}
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-                </div>
-                <div>
-                  <p className="font-medium text-white text-sm">{collegeInfo.name}</p>
-                  <p className="text-white/40 text-xs leading-relaxed">
-                    {collegeInfo.address}
-                  </p>
-                </div>
-              </div>
-
-              {/* Phone */}
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-3.5 h-3.5 text-blue-400" />
-                </div>
-                <div>
-                  <p className="font-medium text-white text-xs">Phone</p>
-                  <p className="text-white/40 text-xs">{collegeInfo.phone}</p>
-                </div>
-              </div>
-
-              {/* Email */}
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-3.5 h-3.5 text-purple-400" />
-                </div>
-                <div>
-                  <p className="font-medium text-white text-xs">Email</p>
-                  <p className="text-white/40 text-xs">{collegeInfo.email}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Website Button */}
-            <a
-              href={`https://${collegeInfo.website}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative flex items-center justify-center gap-2 w-full py-3.5 mt-4 text-xs font-medium rounded-xl overflow-hidden transition-all duration-500"
-            >
-              <span className="absolute inset-0 rounded-xl border border-white/10 group-hover:border-cyan-400/30 transition-colors duration-500" />
-              <span className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/5 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <span className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/0 group-hover:via-cyan-400/50 to-transparent transition-all duration-500" />
-              <span className="relative text-white/60 group-hover:text-white transition-colors duration-300">
-                Visit College Website
-              </span>
-              <ExternalLink className="relative w-3 h-3 text-white/40 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all duration-300" />
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Coordinators */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-12 text-center"
-        >
-          <h3 className="text-lg font-semibold text-white/60 mb-6">Program Coordinators</h3>
-          <div className="flex flex-wrap justify-center gap-4 max-w-3xl mx-auto">
-            {coordinators.programDirectors.map((coord) => (
+            {[
+              { icon: Calendar, value: "Feb 27-28", color: "cyan" },
+              { icon: Users, value: "3-5 Members", color: "purple" },
+              { icon: Zap, value: "24 Hours", color: "yellow" },
+              { icon: MapPin, value: "Offline", color: "pink" },
+            ].map((stat, i) => (
               <div
-                key={coord.name}
-                className="px-4 py-2 rounded-lg bg-white/[0.02] border border-white/[0.06] text-center"
+                key={stat.value}
+                className={`flex items-center gap-2 px-3 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] text-xs`}
               >
-                <p className="text-white text-sm font-medium">{coord.name}</p>
-                <p className="text-white/40 text-xs">{coord.title}</p>
+                <stat.icon className={`w-3.5 h-3.5 ${stat.color === "cyan" ? "text-cyan-400" :
+                    stat.color === "purple" ? "text-purple-400" :
+                      stat.color === "yellow" ? "text-yellow-400" : "text-pink-400"
+                  }`} />
+                <span className="text-white/70 font-medium">{stat.value}</span>
               </div>
             ))}
+          </motion.div>
+
+          {/* Main Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+            {/* Map - Takes 3 columns */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="md:col-span-3 rounded-2xl overflow-hidden bg-white/[0.02] border border-white/[0.06] h-[220px] sm:h-[260px] relative group"
+            >
+              <iframe
+                src={collegeInfo.mapEmbed}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="College Location Map"
+                className="grayscale hover:grayscale-0 transition-all duration-500"
+              />
+              {/* Overlay label */}
+              <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-sm border border-white/10 text-[10px] text-white/80 font-medium">
+                📍 {collegeInfo.shortName}
+              </div>
+            </motion.div>
+
+            {/* Contact Card - Takes 2 columns */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="md:col-span-2 rounded-2xl bg-white/[0.02] border border-white/[0.06] p-4 flex flex-col justify-between"
+            >
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold text-white/80">Contact</h3>
+
+                <div className="space-y-2">
+                  <a href={`tel:${collegeInfo.phone}`} className="flex items-center gap-2 text-xs text-white/50 hover:text-cyan-400 transition-colors">
+                    <Phone className="w-3 h-3" />
+                    {collegeInfo.phone}
+                  </a>
+                  <a href={`mailto:${collegeInfo.email}`} className="flex items-center gap-2 text-xs text-white/50 hover:text-cyan-400 transition-colors">
+                    <Mail className="w-3 h-3" />
+                    {collegeInfo.email}
+                  </a>
+                </div>
+              </div>
+
+              <a
+                href={`https://${collegeInfo.website}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] text-[11px] text-white/60 hover:text-white hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all"
+              >
+                Visit Website
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </motion.div>
           </div>
-        </motion.div>
+
+          {/* Coordinators - Compact Row */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="mt-4 p-3 rounded-xl bg-white/[0.01] border border-white/[0.04]"
+          >
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+              <span className="text-[10px] uppercase tracking-widest text-white/30">Coordinators</span>
+              {coordinators.programDirectors.map((coord) => (
+                <div key={coord.name} className="flex items-center gap-2">
+                  <span className="text-xs text-white/70 font-medium">{coord.name}</span>
+                  <span className="text-[10px] text-white/30">{coord.title}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

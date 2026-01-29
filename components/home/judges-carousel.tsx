@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import { motion, useAnimationControls } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { Linkedin, Quote } from "lucide-react";
 import { judges } from "@/lib/data";
@@ -41,111 +41,104 @@ export function JudgesCarousel() {
                     onTouchStart={() => setIsPaused(true)}
                     onTouchEnd={() => setIsPaused(false)}
                 >
-                    {/* Gradient Masks - hidden on mobile */}
-                    <div className="absolute left-0 top-0 bottom-0 w-10 sm:w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none hidden sm:block" />
-                    <div className="absolute right-0 top-0 bottom-0 w-10 sm:w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none hidden sm:block" />
+                    {/* Gradient Masks - visible on all screens */}
+                    <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
-                    {/* Scrolling Track */}
+                    {/* Scrolling Track - animation starts immediately */}
                     <div
-                        className={`flex gap-4 sm:gap-6 py-4 ${isPaused ? '' : 'animate-scroll'}`}
+                        className="flex gap-4 sm:gap-6 py-4 animate-scroll"
                         style={{
                             animationPlayState: isPaused ? 'paused' : 'running',
                         }}
                     >
                         {/* Duplicate judges for infinite scroll effect */}
                         {[...judges, ...judges, ...judges].map((judge, index) => (
-                            <JudgeCard key={`${judge.id}-${index}`} judge={judge} index={index} />
+                            <JudgeCard key={`${judge.id}-${index}`} judge={judge} />
                         ))}
                     </div>
                 </div>
 
-                {/* Manual Navigation Dots */}
-                <div className="flex justify-center gap-2 mt-8">
-                    {judges.map((_, index) => (
-                        <div
-                            key={index}
-                            className="w-2 h-2 rounded-full bg-white/20 hover:bg-purple-400/50 transition-colors cursor-pointer"
-                        />
-                    ))}
-                </div>
+                {/* Pause indicator */}
+                {isPaused && (
+                    <div className="flex justify-center mt-4">
+                        <span className="text-xs text-white/40 bg-white/5 px-3 py-1 rounded-full">
+                            Paused - scroll to view
+                        </span>
+                    </div>
+                )}
             </div>
         </section>
     );
 }
 
-function JudgeCard({ judge, index }: { judge: typeof judges[0]; index: number }) {
+function JudgeCard({ judge }: { judge: typeof judges[0] }) {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: (index % 3) * 0.1 }}
-            className="flex-shrink-0 w-[320px] sm:w-[380px]"
-        >
-            <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/[0.08] hover:border-purple-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/10 min-h-[280px] sm:min-h-[320px]">
+        <div className="flex-shrink-0 w-[300px] sm:w-[380px]">
+            <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/[0.08] hover:border-purple-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/10 h-[320px] sm:h-[340px] flex flex-col">
                 {/* Top gradient bar */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 opacity-50 group-hover:opacity-100 transition-opacity" />
 
-                <div className="p-6 sm:p-8 space-y-6">
+                <div className="p-5 sm:p-6 flex flex-col flex-1">
                     {/* Photo & Info */}
-                    <div className="flex items-center gap-4">
-                        <div className="relative">
+                    <div className="flex items-center gap-3 sm:gap-4 mb-4">
+                        <div className="relative flex-shrink-0">
                             <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-50 blur group-hover:opacity-75 transition-opacity" />
                             <Image
                                 src={judge.image}
                                 alt={judge.name}
                                 width={80}
                                 height={80}
-                                className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-background"
+                                className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-background"
                             />
                         </div>
-                        <div className="flex-1">
-                            <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-purple-400 transition-colors">
+                        <div className="flex-1 min-w-0">
+                            <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-purple-400 transition-colors truncate">
                                 {judge.name}
                             </h3>
-                            <p className="text-purple-400 text-sm font-medium">
+                            <p className="text-purple-400 text-xs sm:text-sm font-medium line-clamp-1">
                                 {judge.title}
                             </p>
-                            <p className="text-white/40 text-xs">
+                            <p className="text-white/40 text-xs truncate">
                                 {judge.company}
                             </p>
                         </div>
                     </div>
 
-                    {/* Quote */}
-                    <div className="relative pl-4 border-l-2 border-purple-500/30">
-                        <Quote className="absolute -left-2 -top-1 w-4 h-4 text-purple-500/50" />
-                        <p className="text-white/60 text-sm italic leading-relaxed">
+                    {/* Quote - fixed height */}
+                    <div className="relative pl-3 border-l-2 border-purple-500/30 mb-4 flex-shrink-0">
+                        <Quote className="absolute -left-2 -top-1 w-3 h-3 text-purple-500/50" />
+                        <p className="text-white/60 text-xs sm:text-sm italic leading-relaxed line-clamp-2">
                             "{judge.quote}"
                         </p>
                     </div>
 
-                    {/* Expertise Tags */}
-                    <div className="flex flex-wrap gap-2">
-                        {judge.expertise.map((skill) => (
+                    {/* Expertise Tags - flex grow to push LinkedIn to bottom */}
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 flex-1">
+                        {judge.expertise.slice(0, 3).map((skill) => (
                             <span
                                 key={skill}
-                                className="px-2.5 py-1 text-[10px] font-medium text-purple-400/80 bg-purple-500/10 border border-purple-500/20 rounded-full"
+                                className="px-2 py-0.5 sm:py-1 text-[9px] sm:text-[10px] font-medium text-purple-400/80 bg-purple-500/10 border border-purple-500/20 rounded-full h-fit"
                             >
                                 {skill}
                             </span>
                         ))}
                     </div>
 
-                    {/* LinkedIn */}
+                    {/* LinkedIn - always at bottom */}
                     {judge.linkedin && (
                         <a
                             href={judge.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-xs text-white/40 hover:text-purple-400 transition-colors"
+                            className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs text-white/40 hover:text-purple-400 transition-colors mt-auto pt-3"
                         >
-                            <Linkedin className="w-4 h-4" />
+                            <Linkedin className="w-3 h-3 sm:w-4 sm:h-4" />
                             Connect on LinkedIn
                         </a>
                     )}
                 </div>
             </div>
-        </motion.div >
+        </div>
     );
 }
