@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Linkedin, Quote } from "lucide-react";
 import { judges } from "@/lib/data";
 
 export function JudgesCarousel() {
+    const [isPaused, setIsPaused] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -32,16 +33,21 @@ export function JudgesCarousel() {
                     </p>
                 </motion.div>
 
-                {/* Carousel Container */}
+                {/* Carousel Container - pause on hover/touch */}
                 <div
                     ref={containerRef}
                     className="relative overflow-hidden"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                    onTouchStart={() => setIsPaused(true)}
+                    onTouchEnd={() => setIsPaused(false)}
                 >
-                    {/* Scrolling Track - smooth auto-scroll */}
+                    {/* Scrolling Track - pauses on interaction */}
                     <div
                         ref={scrollRef}
                         className="flex gap-4 sm:gap-6 py-4 animate-scroll"
                         style={{
+                            animationPlayState: isPaused ? 'paused' : 'running',
                             scrollbarWidth: 'none',
                             msOverflowStyle: 'none'
                         }}

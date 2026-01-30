@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Twitter, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
@@ -23,6 +23,7 @@ const socialIcons = {
 
 export function Footer() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   return (
     <footer className="border-t border-white/10 bg-black/50 backdrop-blur-xl">
@@ -123,13 +124,23 @@ export function Footer() {
             Developed by
           </p>
 
-          {/* Scrollable Container */}
-          <div className="relative overflow-hidden">
-            {/* Scrollable track with auto-scroll */}
+          {/* Scrollable Container - pause on hover/touch */}
+          <div
+            className="relative overflow-hidden"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
+          >
+            {/* Scrollable track with auto-scroll - pauses on interaction */}
             <div
               ref={scrollRef}
               className="flex gap-4 py-3 animate-scroll-slow"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              style={{
+                animationPlayState: isPaused ? 'paused' : 'running',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none'
+              }}
             >
               {/* Duplicate devs for infinite scroll effect */}
               {[...Array(3)].flatMap((_, repeatIndex) => [
