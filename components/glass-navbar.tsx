@@ -11,7 +11,7 @@ const navLinks = [
     { href: "/#phases", label: "Phases" },
     { href: "/#judges", label: "Judges" },
     { href: "/#prizes", label: "Prizes" },
-    { href: "/#about", label: "About" },
+    { href: "/admin/login", label: "Admin" },
 ];
 
 export function GlassNavbar() {

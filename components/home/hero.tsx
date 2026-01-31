@@ -180,8 +180,16 @@ export function Hero() {
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
-              <Link href="#phases" className="text-white/50 hover:text-white text-sm transition-colors">
-                Learn More →
+              <Link href="/admin/login">
+                <Button
+                  borderRadius="2rem"
+                  containerClassName="h-14 w-auto px-0"
+                  className="bg-white/5 border-white/10 px-8 text-base font-semibold text-white/70 hover:text-white"
+                  borderClassName="bg-white/20"
+                  duration={3000}
+                >
+                  Admin Portal
+                </Button>
               </Link>
             </div>
           </motion.div>

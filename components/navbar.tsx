@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/#schedule", label: "Schedule" },
   { href: "/#faq", label: "FAQ" },
   { href: "/register", label: "Register" },
+  { href: "/admin/login", label: "Admin Login" },
 ];
 
 export function Navbar() {
@@ -30,11 +31,10 @@ export function Navbar() {
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "glass border-b border-white/10"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+        ? "glass border-b border-white/10"
+        : "bg-transparent"
+        }`}
     >
       <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
@@ -49,8 +49,8 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.slice(0, -1).map((link) => (
+        <div className="hidden md:flex items-center gap-6">
+          {navLinks.slice(0, -2).map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -60,7 +60,10 @@ export function Navbar() {
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-neon-cyan to-neon-blue group-hover:w-full transition-all duration-300" />
             </Link>
           ))}
-          <Button asChild className="bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple hover:opacity-90 text-white border-0">
+          <Button asChild variant="outline" className="border-white/20 hover:bg-white/5 text-white">
+            <Link href="/admin/login">Admin Portal</Link>
+          </Button>
+          <Button asChild className="bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple hover:opacity-90 text-white border-0 px-6">
             <Link href="/register">Register Now</Link>
           </Button>
         </div>
