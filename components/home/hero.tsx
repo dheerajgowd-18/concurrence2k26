@@ -167,7 +167,7 @@ export function Hero() {
             transition={{ delay: 0.8 }}
             className="pt-4 flex justify-center"
           >
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex justify-center items-center">
               <Link href="/register">
                 <Button
                   borderRadius="2rem"
@@ -178,17 +178,6 @@ export function Hero() {
                 >
                   Register Now
                   <ArrowRight className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/admin/login">
-                <Button
-                  borderRadius="2rem"
-                  containerClassName="h-14 w-auto px-0"
-                  className="bg-white/5 border-white/10 px-8 text-base font-semibold text-white/70 hover:text-white"
-                  borderClassName="bg-white/20"
-                  duration={3000}
-                >
-                  Admin Portal
                 </Button>
               </Link>
             </div>

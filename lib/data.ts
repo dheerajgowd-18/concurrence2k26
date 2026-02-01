@@ -115,16 +115,6 @@ export const judges: Judge[] = [
     expertise: ["Flutter & Mobile Dev", "AI/ML & TensorFlow", "Fintech & Web3"],
     linkedin: "https://www.linkedin.com/in/moinuddin9777/",
   },
-  {
-    id: "judge-3",
-    name: "TBA",
-    title: "Industry Expert",
-    company: "To Be Announced",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-    quote: "More details coming soon!",
-    expertise: ["Technology", "Innovation", "Leadership"],
-    linkedin: "https://linkedin.com/",
-  },
 ];
 
 // Prizes

@@ -15,7 +15,7 @@ import {
     Lock
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { updateStatus, getActiveGroupLink } from "@/lib/supabase-actions";
+import { updateStatus, getActiveGroupLink, deleteUser } from "@/lib/supabase-actions";
 import { sendApprovalEmail, sendRejectionEmail } from "@/lib/email-service";
 import { getAdminSession, adminLogout } from "@/lib/auth";
 import Image from "next/image";
@@ -68,7 +68,18 @@ export default function SubDashboard() {
                 .select("*")
                 .order("created_at", { ascending: false });
             if (error) throw error;
-            setUsers(data || []);
+
+            // Sort: PENDING first, then by joined_at desc
+            const sortedData = (data || []).sort((a: any, b: any) => {
+                const statusOrder: Record<string, number> = { 'PENDING': 0, 'VERIFYING': 1, 'APPROVED': 2, 'REJECTED': 3 };
+                const orderA = statusOrder[a.status] ?? 99;
+                const orderB = statusOrder[b.status] ?? 99;
+
+                if (orderA !== orderB) return orderA - orderB;
+                return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+            });
+
+            setUsers(sortedData);
         } catch (err) {
             console.error(err);
         } finally {
@@ -114,6 +125,11 @@ export default function SubDashboard() {
 
                 console.log(`[SubDashboard] Triggering rejection email to ${user.email}`);
                 await sendRejectionEmail(user.email, user.name);
+
+                // Delete from DB as requested: "If rejects, no need to enter in the main database"
+                console.log(`[SubDashboard] Deleting rejected user from database: ${user.id}`);
+                await deleteUser(user.id);
+                fetchUsers(); // Refresh the list
             } else if (action === "VERIFYING") {
                 const updatedUser = await updateStatus(user.id, admin.id, "VERIFYING", "START_VERIFICATION");
                 if (!updatedUser) {
@@ -187,11 +203,11 @@ export default function SubDashboard() {
 
                 <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left">
+                        <table className="w-full text-left min-w-[800px]">
                             <thead>
                                 <tr className="border-b border-white/10 text-[10px] uppercase tracking-widest text-white/40 bg-white/5">
                                     <th className="px-6 py-4">User Details</th>
-                                    <th className="px-6 py-4">College</th>
+                                    <th className="px-6 py-4">College/Branch</th>
                                     <th className="px-6 py-4">Payment Proof</th>
                                     <th className="px-6 py-4">Status</th>
                                     <th className="px-6 py-4 text-right">Actions</th>
@@ -211,10 +227,15 @@ export default function SubDashboard() {
                                                 <div className="text-xs text-white/40">{user.reg_no} • {user.email}</div>
                                                 <div className="text-[10px] text-cyan-500/60 font-medium">{user.phone}</div>
                                             </td>
-                                            <td className="px-6 py-4 text-sm whitespace-nowrap">
-                                                <span className={`px-2 py-0.5 rounded-full ${user.college?.includes('RGM') ? 'bg-cyan-500/10 text-cyan-400' : 'bg-purple-500/10 text-purple-400'}`}>
-                                                    {user.college || 'N/A'}
-                                                </span>
+                                            <td className="px-6 py-4">
+                                                <div className="flex flex-col gap-1">
+                                                    <span className={`px-2 py-0.5 rounded-full text-[10px] w-fit ${user.college?.includes('RGM') ? 'bg-cyan-500/10 text-cyan-400' : 'bg-purple-500/10 text-purple-400'}`}>
+                                                        {user.college || 'N/A'}
+                                                    </span>
+                                                    <span className="text-[10px] font-bold text-white/60 tracking-wider ml-1">
+                                                        {user.branch || 'NO BRANCH'}
+                                                    </span>
+                                                </div>
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-2">

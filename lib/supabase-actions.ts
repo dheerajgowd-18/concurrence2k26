@@ -20,6 +20,7 @@ export async function createUser(userData: {
     email: string;
     phone: string;
     college: string;
+    branch: string; // Added branch
     transaction_id: string;
     screenshot_url: string;
     assigned_qr_id: string;
@@ -100,4 +101,14 @@ export async function getActiveEmailAccounts() {
 
     if (error) throw error;
     return data;
+}
+
+export async function deleteUser(userId: string) {
+    const { error } = await supabase
+        .from("users")
+        .delete()
+        .eq("id", userId);
+
+    if (error) throw error;
+    return true;
 }

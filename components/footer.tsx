@@ -24,6 +24,15 @@ const socialIcons = {
 export function Footer() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleInteraction = () => {
+    setIsPaused(true);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      setIsPaused(false);
+    }, 3000); // Resume after 3s of no interaction
+  };
 
   return (
     <footer className="border-t border-white/10 bg-black/50 backdrop-blur-xl">
@@ -126,34 +135,32 @@ export function Footer() {
 
           {/* Scrollable Container - pause on hover/touch */}
           <div
-            className="relative overflow-hidden"
+            className="relative overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
-            onTouchStart={() => setIsPaused(true)}
-            onTouchEnd={() => setIsPaused(false)}
+            onTouchStart={handleInteraction}
+            onScroll={handleInteraction}
           >
             {/* Scrollable track with auto-scroll - pauses on interaction */}
             <div
               ref={scrollRef}
-              className="flex gap-4 py-3 animate-scroll-slow"
+              className="flex gap-4 sm:gap-6 py-4 animate-scroll-slow"
               style={{
                 animationPlayState: isPaused ? 'paused' : 'running',
-                scrollbarWidth: 'none',
-                msOverflowStyle: 'none'
+                width: 'max-content'
               }}
             >
               {/* Duplicate devs for infinite scroll effect */}
-              {[...Array(3)].flatMap((_, repeatIndex) => [
+              {[...Array(6)].flatMap((_, repeatIndex) => [
                 { name: "Dheeraj Gowd", email: "dheerajgowd@example.com", linkedin: "https://linkedin.com/in/dheerajgowd", github: "https://github.com/dheerajgowd-18" },
                 { name: "Akshith", email: "akshith@example.com", linkedin: "https://linkedin.com/in/akshith", github: "https://github.com/akshith" },
-                { name: "Aasrith", email: "aasrith@example.com", linkedin: "https://linkedin.com/in/aasrith", github: "https://github.com/aasrith" },
               ].map((dev) => ({ ...dev, key: `${repeatIndex}-${dev.name}` }))).map((dev) => (
                 <div
                   key={dev.key}
-                  className="flex items-center gap-4 px-6 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-500/30 hover:bg-white/[0.05] transition-all duration-300 shrink-0"
+                  className="flex items-center gap-6 px-8 py-5 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-500/50 hover:bg-cyan-500/5 hover:scale-105 transition-all duration-500 shrink-0 snap-center group"
                 >
                   {/* Name */}
-                  <span className="text-white text-sm font-semibold whitespace-nowrap">{dev.name}</span>
+                  <span className="text-white text-base font-bold whitespace-nowrap group-hover:text-cyan-400 transition-colors">{dev.name}</span>
 
                   {/* Social Links */}
                   <div className="flex items-center gap-2">

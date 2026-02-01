@@ -22,7 +22,9 @@ import {
     Loader2,
     Download,
     Upload,
-    ExternalLink
+    ExternalLink,
+    Menu,
+    X
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { getAdminSession, adminLogout } from "@/lib/auth";
@@ -34,6 +36,7 @@ type Tab = "USERS" | "ADMINS" | "QR" | "EMAILS" | "GROUPS" | "LOGS";
 export default function MainDashboard() {
     const [admin, setAdmin] = useState<any>(null);
     const [activeTab, setActiveTab] = useState<Tab>("USERS");
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [data, setData] = useState<any>({
         users: [],
         admins: [],
@@ -263,6 +266,23 @@ export default function MainDashboard() {
     const handleInlineSave = async (id: string, field: string, value: string) => {
         try {
             setLoading(true);
+
+            // Handle rejection by deleting
+            if (field === 'status' && value === 'REJECTED') {
+                const confirmDelete = window.confirm("Rejecting will PERMANENTLY DELETE this user from the database. Continue?");
+                if (!confirmDelete) return;
+
+                const { error: delError } = await supabase.from("users").delete().eq("id", id);
+                if (delError) throw delError;
+
+                setData((prev: any) => ({
+                    ...prev,
+                    users: prev.users.filter((u: any) => u.id !== id)
+                }));
+                alert("User rejected and deleted from database.");
+                return;
+            }
+
             const { error } = await supabase
                 .from("users")
                 .update({ [field]: value })
@@ -318,23 +338,34 @@ export default function MainDashboard() {
 
     return (
         <div className="min-h-screen bg-black text-white flex">
-            {/* Side Sidebar */}
-            <aside className="w-64 border-r border-white/10 bg-white/[0.01] flex flex-col shrink-0">
-                <div className="p-6 border-b border-white/10 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center font-bold">M</div>
-                    <div>
-                        <div className="font-bold text-sm">TechSprint</div>
-                        <div className="text-[10px] text-orange-500 font-bold uppercase tracking-widest">Main Admin</div>
+            {/* Sidebar Toggle (Mobile Only) */}
+            <div className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] lg:hidden transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={() => setMobileMenuOpen(false)} />
+
+            {/* Sidebar */}
+            <aside className={`
+                fixed inset-y-0 left-0 w-64 border-r border-white/10 bg-black flex flex-col shrink-0 z-[70] transition-transform duration-300 transform
+                lg:relative lg:translate-x-0 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+            `}>
+                <div className="p-6 border-b border-white/10 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center font-bold text-white">M</div>
+                        <div>
+                            <div className="font-bold text-sm text-white">TechSprint</div>
+                            <div className="text-[10px] text-orange-500 font-bold uppercase tracking-widest">Main Admin</div>
+                        </div>
                     </div>
+                    <button onClick={() => setMobileMenuOpen(false)} className="lg:hidden text-white/40 hover:text-white">
+                        <X className="w-6 h-6" />
+                    </button>
                 </div>
 
                 <nav className="flex-1 p-4 space-y-2">
-                    <NavItem icon={Users} label="All Users" active={activeTab === 'USERS'} onClick={() => setActiveTab('USERS')} />
-                    <NavItem icon={ShieldCheck} label="Sub Admins" active={activeTab === 'ADMINS'} onClick={() => setActiveTab('ADMINS')} />
-                    <NavItem icon={QrCode} label="QR Codes" active={activeTab === 'QR'} onClick={() => setActiveTab('QR')} />
-                    <NavItem icon={Mail} label="Email Accounts" active={activeTab === 'EMAILS'} onClick={() => setActiveTab('EMAILS')} />
-                    <NavItem icon={LinkIcon} label="WhatsApp Links" active={activeTab === 'GROUPS'} onClick={() => setActiveTab('GROUPS')} />
-                    <NavItem icon={Activity} label="Action Logs" active={activeTab === 'LOGS'} onClick={() => setActiveTab('LOGS')} />
+                    <NavItem icon={Users} label="All Users" active={activeTab === 'USERS'} onClick={() => { setActiveTab('USERS'); setMobileMenuOpen(false); }} />
+                    <NavItem icon={ShieldCheck} label="Sub Admins" active={activeTab === 'ADMINS'} onClick={() => { setActiveTab('ADMINS'); setMobileMenuOpen(false); }} />
+                    <NavItem icon={QrCode} label="QR Codes" active={activeTab === 'QR'} onClick={() => { setActiveTab('QR'); setMobileMenuOpen(false); }} />
+                    <NavItem icon={Mail} label="Email Accounts" active={activeTab === 'EMAILS'} onClick={() => { setActiveTab('EMAILS'); setMobileMenuOpen(false); }} />
+                    <NavItem icon={LinkIcon} label="WhatsApp Links" active={activeTab === 'GROUPS'} onClick={() => { setActiveTab('GROUPS'); setMobileMenuOpen(false); }} />
+                    <NavItem icon={Activity} label="Action Logs" active={activeTab === 'LOGS'} onClick={() => { setActiveTab('LOGS'); setMobileMenuOpen(false); }} />
                 </nav>
 
                 <div className="p-4 border-t border-white/10">
@@ -350,9 +381,12 @@ export default function MainDashboard() {
 
             {/* Main Content */}
             <main className="flex-1 overflow-y-auto">
-                <header className="h-20 border-b border-white/10 px-8 flex items-center justify-between sticky top-0 bg-black/50 backdrop-blur-xl z-10">
-                    <div className="flex items-center gap-6">
-                        <h2 className="text-xl font-bold">{activeTab.replace('_', ' ')} Management</h2>
+                <header className="h-20 border-b border-white/10 px-4 sm:px-8 flex items-center justify-between sticky top-0 bg-black/50 backdrop-blur-xl z-10">
+                    <div className="flex items-center gap-4 sm:gap-6">
+                        <button onClick={() => setMobileMenuOpen(true)} className="lg:hidden text-white/60 hover:text-white">
+                            <Menu className="w-6 h-6" />
+                        </button>
+                        <h2 className="text-sm sm:text-xl font-bold truncate max-w-[150px] sm:max-w-none">{activeTab.replace('_', ' ')} Management</h2>
                         {activeTab === 'USERS' && (
                             <div className="flex items-center gap-3">
                                 <div className="relative">
@@ -460,7 +494,7 @@ export default function MainDashboard() {
                         </div>
                     )}
                     {activeTab === 'USERS' && <TableLayout
-                        headers={['Profile', 'Contact (Edit)', 'College', 'Status', 'Payment Proof', 'UTR (Edit)', 'Joined At', 'Actions']}
+                        headers={['Profile', 'Contact (Edit)', 'College', 'Branch', 'Status', 'Payment Proof', 'UTR (Edit)', 'Joined At', 'Actions']}
                         data={filteredUsers}
                         renderRow={(u: any) => (
                             <tr key={u.id} className="border-b border-white/5 hover:bg-white/[0.01]">
@@ -468,7 +502,7 @@ export default function MainDashboard() {
                                     <div className="font-bold">{u.name}</div>
                                     <div className="text-[10px] text-white/40 uppercase font-mono">{u.reg_no}</div>
                                 </td>
-                                <td className="py-4 px-4 text-xs">
+                                <td className="py-4 px-4 text-xs whitespace-nowrap font-mono">
                                     {editingId === u.id && editField === 'email' ? (
                                         <input
                                             autoFocus
@@ -490,10 +524,10 @@ export default function MainDashboard() {
                                             onChange={(e) => setEditValue(e.target.value)}
                                             onBlur={() => handleInlineSave(u.id, 'phone', editValue)}
                                             onKeyDown={(e) => e.key === 'Enter' && handleInlineSave(u.id, 'phone', editValue)}
-                                            className="bg-black/50 border border-orange-500/50 rounded px-2 py-1 w-full mt-1 outline-none font-mono"
+                                            className="bg-black/50 border border-orange-500/50 rounded px-2 py-1 w-full mt-1 outline-none"
                                         />
                                     ) : (
-                                        <div onDoubleClick={() => { setEditingId(u.id); setEditField('phone'); setEditValue(u.phone); }} className="text-white/40 cursor-pointer hover:text-orange-400">
+                                        <div onDoubleClick={() => { setEditingId(u.id); setEditField('phone'); setEditValue(u.phone); }} className="text-white/40 cursor-pointer hover:text-orange-400 mt-1">
                                             {u.phone}
                                         </div>
                                     )}
@@ -502,6 +536,26 @@ export default function MainDashboard() {
                                     <span className={`px-2 py-0.5 rounded-full ${u.college?.includes('RGM') ? 'bg-cyan-500/10 text-cyan-400' : 'bg-purple-500/10 text-purple-400'}`}>
                                         {u.college || 'N/A'}
                                     </span>
+                                </td>
+                                <td className="py-4 px-4 text-[10px] text-white/60">
+                                    {editingId === u.id && editField === 'branch' ? (
+                                        <select
+                                            autoFocus
+                                            value={editValue}
+                                            onChange={(e) => handleInlineSave(u.id, 'branch', e.target.value)}
+                                            onBlur={() => setEditingId(null)}
+                                            className="bg-black/50 border border-orange-500/50 rounded px-1 py-1 w-full outline-none text-[10px]"
+                                        >
+                                            <option value="">Select</option>
+                                            {["CSE", "CSE-AIML", "CSE-DS", "CSE-BS", "EEE", "ECE", "MECH", "CIVIL", "OTHERS"].map(b => (
+                                                <option key={b} value={b}>{b}</option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <span onDoubleClick={() => { setEditingId(u.id); setEditField('branch'); setEditValue(u.branch || ""); }} className="cursor-pointer hover:text-orange-400 bg-white/5 px-2 py-0.5 rounded">
+                                            {u.branch || 'N/A'}
+                                        </span>
+                                    )}
                                 </td>
                                 <td className="py-4 px-4">
                                     <div className="relative group/status flex justify-center">
@@ -707,18 +761,20 @@ function FormSelect({ label, options, onChange }: { label: string, options: stri
 function TableLayout({ headers, data, renderRow }: any) {
     return (
         <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
-            <table className="w-full text-left border-collapse">
-                <thead className="bg-white/5">
-                    <tr>
-                        {headers.map((h: string) => (
-                            <th key={h} className="p-4 text-[10px] uppercase tracking-widest text-white/40">{h}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-white/5">
-                    {data.map(renderRow)}
-                </tbody>
-            </table>
+            <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse min-w-[800px]">
+                    <thead className="bg-white/5">
+                        <tr>
+                            {headers.map((h: string) => (
+                                <th key={h} className="p-4 text-[10px] uppercase tracking-widest text-white/40">{h}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                        {data.map(renderRow)}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

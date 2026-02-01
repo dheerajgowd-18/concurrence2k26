@@ -10,6 +10,15 @@ export function JudgesCarousel() {
     const [isPaused, setIsPaused] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleInteraction = () => {
+        setIsPaused(true);
+        if (timerRef.current) clearTimeout(timerRef.current);
+        timerRef.current = setTimeout(() => {
+            setIsPaused(false);
+        }, 3000); // Resume after 3s of no interaction
+    };
 
     return (
         <section id="judges" className="py-20 sm:py-28 relative overflow-hidden">
@@ -33,28 +42,29 @@ export function JudgesCarousel() {
                     </p>
                 </motion.div>
 
-                {/* Carousel Container - pause on hover/touch */}
+                {/* Carousel Container - manual scroll + pause on interaction */}
                 <div
                     ref={containerRef}
-                    className="relative overflow-hidden"
+                    className="relative overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-8"
                     onMouseEnter={() => setIsPaused(true)}
                     onMouseLeave={() => setIsPaused(false)}
-                    onTouchStart={() => setIsPaused(true)}
-                    onTouchEnd={() => setIsPaused(false)}
+                    onTouchStart={handleInteraction}
+                    onScroll={handleInteraction}
                 >
                     {/* Scrolling Track - pauses on interaction */}
                     <div
                         ref={scrollRef}
-                        className="flex gap-4 sm:gap-6 py-4 animate-scroll"
+                        className="flex gap-4 sm:gap-6 py-4 animate-scroll whitespace-nowrap"
                         style={{
                             animationPlayState: isPaused ? 'paused' : 'running',
-                            scrollbarWidth: 'none',
-                            msOverflowStyle: 'none'
+                            width: 'max-content'
                         }}
                     >
-                        {/* Duplicate judges for infinite scroll effect */}
-                        {[...judges, ...judges, ...judges].map((judge, index) => (
-                            <JudgeCard key={`${judge.id}-${index}`} judge={judge} />
+                        {/* Repeat judges many times for a loop effect */}
+                        {[...judges, ...judges, ...judges, ...judges, ...judges, ...judges].map((judge, index) => (
+                            <div key={`${judge.id}-${index}`} className="snap-center">
+                                <JudgeCard judge={judge} />
+                            </div>
                         ))}
                     </div>
                 </div>

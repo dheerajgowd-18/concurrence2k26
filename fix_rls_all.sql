@@ -1,11 +1,21 @@
 /* 
-  TECHSPRINT EMERGENCY FIX (v5): FIX DELETION & CASCADE
+  TECHSPRINT EMERGENCY FIX (v6): ADD BRANCH COLUMN & REALTIME
   Run this entire script in your Supabase SQL Editor.
-  It ensures all tables exist, fixes the deletion constraint, and unlocks everything.
+  It ensures all tables exist, fixes constraints, and adds the new 'branch' column.
 */
 
 -- 0. Enable Realtime for users table
-ALTER PUBLICATION supabase_realtime ADD TABLE public.users;
+DO $$ 
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_publication_tables 
+        WHERE pubname = 'supabase_realtime' 
+        AND schemaname = 'public' 
+        AND tablename = 'users'
+    ) THEN
+        ALTER PUBLICATION supabase_realtime ADD TABLE public.users;
+    END IF;
+END $$;
 
 -- 1. Create Tables if they don't exist
 CREATE TABLE IF NOT EXISTS public.email_accounts (
@@ -29,6 +39,7 @@ CREATE TABLE IF NOT EXISTS public.group_links (
 -- 2. Ensure Columns Exist in Users
 ALTER TABLE IF EXISTS public.users ADD COLUMN IF NOT EXISTS verified_by uuid REFERENCES public.admins(id);
 ALTER TABLE IF EXISTS public.users ADD COLUMN IF NOT EXISTS assigned_qr_id uuid REFERENCES public.qr_codes(id);
+ALTER TABLE IF EXISTS public.users ADD COLUMN IF NOT EXISTS branch text;
 
 -- 3. FIX DELETION CONSTRAINT (Allow deleting users even if they have logs)
 DO $$ 

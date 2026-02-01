@@ -35,7 +35,8 @@ export default function RegisterPage() {
         email: "",
         phone: "",
         college: "RGM",
-        otherCollege: "", // Added for custom college
+        otherCollege: "",
+        branch: "", // Added for branch selection
         transaction_id: "",
         screenshot: null as File | null,
     });
@@ -70,7 +71,8 @@ export default function RegisterPage() {
         if (formData.reg_no.length < 3) return "Registration number is too short."; // Loosened
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return "Invalid email address.";
         if (formData.phone.length < 10) return "Phone number must be at least 10 digits."; // Loosened
-        if (formData.college === 'OTHERS' && !formData.otherCollege.trim()) return "Enter your college name."; // Validation for 'Other'
+        if (formData.college === 'OTHERS' && !formData.otherCollege.trim()) return "Enter your college name.";
+        if (!formData.branch) return "Select your branch."; // Branch validation
         return null;
     };
 
@@ -117,6 +119,7 @@ export default function RegisterPage() {
                 email: formData.email,
                 phone: formData.phone,
                 college: finalCollege,
+                branch: formData.branch, // Added branch
                 transaction_id: formData.transaction_id,
                 screenshot_url: screenshot_url,
                 assigned_qr_id: assignedQR.id,
@@ -141,13 +144,20 @@ export default function RegisterPage() {
                         style={{ width: `${((step - 1) / 2) * 100}%` }}
                     />
                     {[1, 2, 3].map((s) => (
-                        <div
+                        <button
                             key={s}
-                            className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-500 ${s <= step ? "bg-black border-cyan-500 text-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.5)]" : "bg-black border-white/10 text-white/30"
+                            type="button"
+                            onClick={() => {
+                                // Allow jumping back anytime
+                                if (s < step) setStep(s as Step);
+                                // Allow jumping forward only if current details are valid
+                                if (s > step && validateStep1() === null) setStep(s as Step);
+                            }}
+                            className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-500 z-10 ${s <= step ? "bg-black border-cyan-500 text-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.5)]" : "bg-black border-white/10 text-white/30"
                                 }`}
                         >
                             {s < step ? <CheckCircle2 className="w-6 h-6" /> : s}
-                        </div>
+                        </button>
                     ))}
                 </div>
 
@@ -206,6 +216,20 @@ export default function RegisterPage() {
                                                 />
                                             </motion.div>
                                         )}
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label className="text-xs uppercase tracking-widest text-white/40 ml-1">Select Branch</label>
+                                        <select
+                                            value={formData.branch}
+                                            onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 outline-none focus:border-cyan-500/50 transition-all text-white/80 appearance-none cursor-pointer"
+                                        >
+                                            <option value="" disabled className="bg-neutral-900">Select Branch</option>
+                                            {["CSE", "CSE-AIML", "CSE-DS", "CSE-BS", "EEE", "ECE", "MECH", "CIVIL", "OTHERS"].map(b => (
+                                                <option key={b} value={b} className="bg-neutral-900">{b}</option>
+                                            ))}
+                                        </select>
                                     </div>
                                 </div>
 
