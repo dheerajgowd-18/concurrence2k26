@@ -2,23 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-    User,
-    Mail,
-    Phone,
-    School,
-    Hash,
-    CreditCard,
-    Upload,
-    ArrowRight,
-    CheckCircle2,
-    Loader2,
-    AlertCircle
-} from "lucide-react";
+import { User, Phone, Mail, GraduationCap, Building2, CreditCard, ChevronRight, ChevronLeft, Upload, CheckCircle2, AlertCircle, Sparkles, LogIn, LayoutDashboard } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { getNextAvailableQR, createUser } from "@/lib/supabase-actions";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 type Step = 1 | 2 | 3;
 
@@ -68,11 +57,11 @@ export default function RegisterPage() {
 
     const validateStep1 = () => {
         if (!formData.name.trim()) return "Enter full name.";
-        if (formData.reg_no.length < 3) return "Registration number is too short."; // Loosened
+        if (formData.reg_no.length < 3) return "Registration number is too short.";
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return "Invalid email address.";
-        if (formData.phone.length < 10) return "Phone number must be at least 10 digits."; // Loosened
+        if (formData.phone.length < 10) return "Phone number must be at least 10 digits.";
         if (formData.college === 'OTHERS' && !formData.otherCollege.trim()) return "Enter your college name.";
-        if (!formData.branch) return "Select your branch."; // Branch validation
+        if (!formData.branch) return "Select your branch.";
         return null;
     };
 
@@ -119,7 +108,7 @@ export default function RegisterPage() {
                 email: formData.email,
                 phone: formData.phone,
                 college: finalCollege,
-                branch: formData.branch, // Added branch
+                branch: formData.branch,
                 transaction_id: formData.transaction_id,
                 screenshot_url: screenshot_url,
                 assigned_qr_id: assignedQR.id,
@@ -134,7 +123,29 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-screen bg-black pt-28 pb-20 px-4">
+        <div className="min-h-screen bg-black text-white pt-28 pb-20 px-4 relative">
+            {/* Header with Back Button and Logo */}
+            <div className="fixed top-0 left-0 right-0 h-20 bg-black/50 backdrop-blur-xl border-b border-white/5 z-50 flex items-center justify-between px-4 sm:px-12">
+                <div className="flex items-center gap-6">
+                    <Link href="/" className="flex items-center gap-2 group transition-transform hover:scale-105 active:scale-95">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:rotate-12 transition-transform duration-300">
+                            <Sparkles className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent" style={{ fontFamily: "var(--font-orbitron), sans-serif" }}>RIPPLE</span>
+                    </Link>
+                    <div className="h-6 w-px bg-white/10 hidden sm:block" />
+                    <Link href="/admin/login" className="hidden sm:flex items-center gap-2 text-white/40 hover:text-white transition-all text-xs font-bold uppercase tracking-widest group">
+                        <LayoutDashboard className="w-3 h-3 group-hover:rotate-12 transition-transform" />
+                        Admin Portal
+                    </Link>
+                </div>
+
+                <Link href="/" className="flex items-center gap-2 text-white/40 hover:text-white transition-all text-xs font-bold uppercase tracking-widest group">
+                    <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                    Back to Home
+                </Link>
+            </div>
+
             <div className="max-w-xl mx-auto">
                 {/* Progress Bar */}
                 <div className="flex justify-between mb-8 relative">
@@ -148,12 +159,10 @@ export default function RegisterPage() {
                             key={s}
                             type="button"
                             onClick={() => {
-                                // Allow jumping back anytime
                                 if (s < step) setStep(s as Step);
-                                // Allow jumping forward only if current details are valid
                                 if (s > step && validateStep1() === null) setStep(s as Step);
                             }}
-                            className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-500 z-10 ${s <= step ? "bg-black border-cyan-500 text-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.5)]" : "bg-black border-white/10 text-white/30"
+                            className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-500 z-10 ${s <= step ? "bg-black border-cyan-500 text-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-black border-white/10 text-white/30"
                                 }`}
                         >
                             {s < step ? <CheckCircle2 className="w-6 h-6" /> : s}
@@ -162,7 +171,7 @@ export default function RegisterPage() {
                 </div>
 
                 {/* Content */}
-                <div className="bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
+                <div className="bg-white/[0.02] border border-white/5 backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
                     <AnimatePresence mode="wait">
                         {step === 1 && (
                             <motion.div
@@ -179,7 +188,7 @@ export default function RegisterPage() {
 
                                 <div className="space-y-4">
                                     <Input label="Full Name" icon={User} placeholder="John Doe" value={formData.name} onChange={(v) => setFormData({ ...formData, name: v })} />
-                                    <Input label="Registration Number" icon={Hash} placeholder="22091A05XX" value={formData.reg_no} onChange={(v) => setFormData({ ...formData, reg_no: v })} />
+                                    <Input label="Registration Number" icon={GraduationCap} placeholder="22091A05XX" value={formData.reg_no} onChange={(v) => setFormData({ ...formData, reg_no: v })} />
                                     <Input label="Email Address" icon={Mail} placeholder="john@example.com" value={formData.email} onChange={(v) => setFormData({ ...formData, email: v })} />
                                     <Input label="Phone Number" icon={Phone} placeholder="9876543210" value={formData.phone} onChange={(v) => setFormData({ ...formData, phone: v })} />
 
@@ -239,7 +248,7 @@ export default function RegisterPage() {
                                     onClick={handleNext}
                                     className="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
                                 >
-                                    Continue to Payment <ArrowRight className="w-5 h-5" />
+                                    Continue to Payment <ChevronRight className="w-5 h-5" />
                                 </button>
                             </motion.div>
                         )}
@@ -259,7 +268,7 @@ export default function RegisterPage() {
 
                                 {loading ? (
                                     <div className="h-64 flex items-center justify-center">
-                                        <Loader2 className="w-10 h-10 animate-spin text-cyan-500" />
+                                        <Sparkles className="w-10 h-10 animate-spin text-cyan-500" />
                                     </div>
                                 ) : assignedQR ? (
                                     <div className="space-y-6">
@@ -358,7 +367,7 @@ export default function RegisterPage() {
                                     onClick={handleSubmit}
                                     className="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl font-bold flex items-center justify-center gap-2 disabled:opacity-50"
                                 >
-                                    {loading ? <><Loader2 className="w-5 h-5 animate-spin" /> Submitting...</> : "Submit Registration"}
+                                    {loading ? <><Sparkles className="w-5 h-5 animate-spin" /> Submitting...</> : "Submit Registration"}
                                 </button>
                                 <button onClick={() => setStep(2)} className="w-full text-white/40 text-sm hover:text-white transition-colors" disabled={loading}>Go Back</button>
                             </motion.div>

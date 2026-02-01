@@ -51,6 +51,7 @@
   --icon-lg: 1.5rem;
 }
 
+
 @theme inline {
   --font-sans: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
   --font-mono: var(--font-jetbrains), 'JetBrains Mono', monospace;

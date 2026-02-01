@@ -121,24 +121,31 @@ export const judges: Judge[] = [
 export const prizes: Prize[] = [
   {
     position: "winner",
-    title: "₹30,000 + Internship",
-    description: "Grand prize of ₹30,000 cash plus a paid internship opportunity at a leading tech company. Kickstart your career!",
+    title: "₹25,000 + Internship",
+    description: "Grand prize of ₹25,000 cash plus a paid internship opportunity for the winning team. Best performers get internship offers!",
     icon: "trophy",
     highlight: true,
   },
   {
     position: "runner-up",
-    title: "₹25,000 + Internship",
-    description: "₹25,000 cash prize plus internship opportunity. Prove your skills and launch your career!",
+    title: "₹15,000 + Internship",
+    description: "₹15,000 cash prize plus internship opportunity for the runner-up team.",
     icon: "medal",
     highlight: true,
   },
   {
     position: "third",
-    title: "₹20,000 + Internship",
-    description: "₹20,000 cash prize plus internship opportunity. All top 3 teams win internships!",
+    title: "₹10,000 + Internship",
+    description: "₹10,000 cash prize plus internship opportunity for the third place team.",
     icon: "award",
     highlight: true,
+  },
+  {
+    position: "consolation",
+    title: "₹10,000 Consolation",
+    description: "Special consolation prize of ₹10,000 for the best performing 2nd Year Team!",
+    icon: "star",
+    highlight: false,
   },
 ];
 
@@ -193,8 +200,8 @@ export const coordinators = {
   patrons: [
     { name: "Dr. M. Santhiramudu", title: "Chairman" },
     { name: "Sri. M. Sivaram", title: "Managing Director" },
-    { name: "Dr. D. V. Ashok Kumar", title: "Dean Admin" },
     { name: "Dr. T. Jaya Chandra Prasad", title: "Principal" },
+    { name: "Dr. D. V. Ashok Kumar", title: "Dean Admin" },
   ],
   programDirectors: [
     { name: "Dr. K. Subba Reddy", title: "Program Director & HOD" },

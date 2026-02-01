@@ -51,16 +51,16 @@ export function About() {
                 className={`flex items-center gap-2 px-3 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] text-xs`}
               >
                 <stat.icon className={`w-3.5 h-3.5 ${stat.color === "cyan" ? "text-cyan-400" :
-                    stat.color === "purple" ? "text-purple-400" :
-                      stat.color === "yellow" ? "text-yellow-400" : "text-pink-400"
+                  stat.color === "purple" ? "text-purple-400" :
+                    stat.color === "yellow" ? "text-yellow-400" : "text-pink-400"
                   }`} />
                 <span className="text-white/70 font-medium">{stat.value}</span>
               </div>
             ))}
           </motion.div>
 
-          {/* Main Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             {/* Map - Takes 3 columns */}
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
@@ -79,7 +79,6 @@ export function About() {
                 title="College Location Map"
                 className="grayscale hover:grayscale-0 transition-all duration-500"
               />
-              {/* Overlay label */}
               <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-sm border border-white/10 text-[10px] text-white/80 font-medium">
                 📍 {collegeInfo.shortName}
               </div>
@@ -91,18 +90,17 @@ export function About() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="md:col-span-2 rounded-2xl bg-white/[0.02] border border-white/[0.06] p-4 flex flex-col justify-between"
+              className="md:col-span-2 rounded-2xl bg-white/[0.02] border border-white/[0.06] p-5 flex flex-col justify-between h-[220px] sm:h-[260px]"
             >
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold text-white/80">Contact</h3>
-
-                <div className="space-y-2">
-                  <a href={`tel:${collegeInfo.phone}`} className="flex items-center gap-2 text-xs text-white/50 hover:text-cyan-400 transition-colors">
-                    <Phone className="w-3 h-3" />
+              <div className="space-y-4">
+                <h3 className="text-sm font-bold text-white uppercase tracking-widest bg-white/5 py-1 px-3 rounded-md w-fit">Contact</h3>
+                <div className="space-y-3">
+                  <a href={`tel:${collegeInfo.phone}`} className="flex items-center gap-3 text-sm text-white/50 hover:text-cyan-400 transition-colors group">
+                    <Phone className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
                     {collegeInfo.phone}
                   </a>
-                  <a href={`mailto:${collegeInfo.email}`} className="flex items-center gap-2 text-xs text-white/50 hover:text-cyan-400 transition-colors">
-                    <Mail className="w-3 h-3" />
+                  <a href={`mailto:${collegeInfo.email}`} className="flex items-center gap-3 text-sm text-white/50 hover:text-cyan-400 transition-colors group">
+                    <Mail className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
                     {collegeInfo.email}
                   </a>
                 </div>
@@ -112,32 +110,65 @@ export function About() {
                 href={`https://${collegeInfo.website}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] text-[11px] text-white/60 hover:text-white hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all"
+                className="flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/20 text-xs font-bold text-cyan-400 hover:text-white hover:border-cyan-500 hover:from-cyan-500 hover:to-purple-500 transition-all duration-300 shadow-lg shadow-cyan-500/5 group"
               >
                 Visit Website
-                <ExternalLink className="w-3 h-3" />
+                <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
             </motion.div>
           </div>
 
-          {/* Coordinators - Compact Row */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-4 p-3 rounded-xl bg-white/[0.01] border border-white/[0.04]"
-          >
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-              <span className="text-[10px] uppercase tracking-widest text-white/30">Coordinators</span>
-              {coordinators.programDirectors.map((coord) => (
-                <div key={coord.name} className="flex items-center gap-2">
-                  <span className="text-xs text-white/70 font-medium">{coord.name}</span>
-                  <span className="text-[10px] text-white/30">{coord.title}</span>
+          {/* Coordinators Section - High Visibility Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            {/* Patrons */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]"
+            >
+              <h4 className="text-[10px] uppercase tracking-[0.2em] text-cyan-400 font-bold mb-4">Patrons</h4>
+              <div className="grid grid-cols-2 gap-3">
+                {coordinators.patrons.map((patron) => (
+                  <div key={patron.name} className="flex flex-col">
+                    <span className="text-xs text-white font-bold">{patron.name}</span>
+                    <span className="text-[9px] text-white/30 uppercase tracking-tighter">{patron.title}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Coordinators */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]"
+            >
+              <h4 className="text-[10px] uppercase tracking-[0.2em] text-purple-400 font-bold mb-4">Coordinators</h4>
+              <div className="flex flex-col gap-4">
+                {/* HOD - Middle */}
+                <div className="flex flex-col items-center text-center">
+                  <span className="text-xs text-white font-bold">{coordinators.programDirectors[0].name}</span>
+                  <span className="text-[9px] text-white/30 uppercase tracking-tighter">{coordinators.programDirectors[0].title}</span>
                 </div>
-              ))}
-            </div>
-          </motion.div>
+
+                {/* Conveners - Side by Side */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="flex flex-col">
+                    <span className="text-xs text-white font-bold">{coordinators.programDirectors[1].name}</span>
+                    <span className="text-[9px] text-white/30 uppercase tracking-tighter">{coordinators.programDirectors[1].title}</span>
+                  </div>
+                  <div className="flex flex-col text-right">
+                    <span className="text-xs text-white font-bold">{coordinators.programDirectors[2].name}</span>
+                    <span className="text-[9px] text-white/30 uppercase tracking-tighter">{coordinators.programDirectors[2].title}</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

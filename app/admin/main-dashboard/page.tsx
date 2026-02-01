@@ -337,7 +337,7 @@ export default function MainDashboard() {
     if (!admin) return null;
 
     return (
-        <div className="min-h-screen bg-black text-white flex">
+        <div className="min-h-screen bg-neutral-950 text-white flex">
             {/* Sidebar Toggle (Mobile Only) */}
             <div className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] lg:hidden transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={() => setMobileMenuOpen(false)} />
 
@@ -381,7 +381,7 @@ export default function MainDashboard() {
 
             {/* Main Content */}
             <main className="flex-1 overflow-y-auto">
-                <header className="h-20 border-b border-white/10 px-4 sm:px-8 flex items-center justify-between sticky top-0 bg-black/50 backdrop-blur-xl z-10">
+                <header className="h-20 border-b border-white/10 px-4 sm:px-8 flex items-center justify-between sticky top-0 bg-black/50 backdrop-blur-xl z-50">
                     <div className="flex items-center gap-4 sm:gap-6">
                         <button onClick={() => setMobileMenuOpen(true)} className="lg:hidden text-white/60 hover:text-white">
                             <Menu className="w-6 h-6" />
@@ -392,7 +392,7 @@ export default function MainDashboard() {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        placeholder="Search name, reg, utr..."
+                                        placeholder="Search name..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                         className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-xs w-64 outline-none focus:border-orange-500/50 transition-all font-mono"
@@ -415,7 +415,7 @@ export default function MainDashboard() {
                             </div>
                         )}
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex items-center gap-4">
                         <button onClick={fetchAllData} title="Refresh" className="text-white/40 hover:text-white transition-colors">
                             <Activity className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
                         </button>
@@ -453,7 +453,7 @@ export default function MainDashboard() {
                             <motion.div
                                 initial={{ scale: 0.9, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
-                                className="bg-white/10 border border-white/20 rounded-3xl p-8 max-w-md w-full shadow-2xl"
+                                className="bg-neutral-900 border border-white/20 rounded-3xl p-8 max-w-md w-full shadow-2xl"
                             >
                                 <h3 className="text-xl font-bold mb-6">Add {showModal}</h3>
                                 <form onSubmit={handleAdd} className="space-y-4">
@@ -737,7 +737,7 @@ function FormInput({ label, type = "text", placeholder, onChange }: { label: str
                 type={type}
                 placeholder={placeholder}
                 onChange={(e) => onChange(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-orange-500/50 transition-all text-sm"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-orange-500/50 transition-all text-sm text-white"
             />
         </div>
     );
@@ -749,10 +749,10 @@ function FormSelect({ label, options, onChange }: { label: string, options: stri
             <label className="text-[10px] uppercase font-bold text-white/30 ml-1">{label}</label>
             <select
                 onChange={(e) => onChange(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-orange-500/50 transition-all text-sm appearance-none"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-orange-500/50 transition-all text-sm appearance-none text-white"
             >
                 <option value="">Select Option</option>
-                {options.map((o: string) => <option key={o} value={o} className="bg-neutral-900">{o}</option>)}
+                {options.map((o: string) => <option key={o} value={o} className="bg-neutral-900 text-white">{o}</option>)}
             </select>
         </div>
     );
@@ -760,7 +760,7 @@ function FormSelect({ label, options, onChange }: { label: string, options: stri
 
 function TableLayout({ headers, data, renderRow }: any) {
     return (
-        <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
+        <div className="bg-neutral-900 border border-white/10 rounded-2xl overflow-hidden shadow-sm">
             <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse min-w-[800px]">
                     <thead className="bg-white/5">
@@ -770,7 +770,7 @@ function TableLayout({ headers, data, renderRow }: any) {
                             ))}
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/5">
+                    <tbody className="divide-y divide-white/5 text-white">
                         {data.map(renderRow)}
                     </tbody>
                 </table>

@@ -35,13 +35,13 @@ export function Footer() {
   };
 
   return (
-    <footer className="border-t border-white/10 bg-black/50 backdrop-blur-xl">
+    <footer className="border-t border-foreground/10 bg-background/50 backdrop-blur-xl">
       <div className="container mx-auto px-4 py-10 sm:py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1 space-y-4">
             <Link href="/" className="inline-flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full overflow-hidden bg-white/5 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-foreground/5 flex items-center justify-center">
                 <Image
                   src="/college-logo.png"
                   alt="TechSprint Logo"
@@ -57,26 +57,26 @@ export function Footer() {
                 >
                   TECHSPRINT
                 </span>
-                <span className="text-[10px] text-white/30">2K26</span>
+                <span className="text-[10px] text-foreground/30 font-bold uppercase tracking-widest">2K26</span>
               </div>
             </Link>
-            <p className="text-white/40 text-xs sm:text-sm leading-relaxed">
+            <p className="text-foreground/40 text-xs sm:text-sm leading-relaxed">
               {techSprintInfo.tagline}
             </p>
-            <p className="text-white/30 text-xs">
+            <p className="text-foreground/30 text-xs font-medium">
               {techSprintInfo.dates.start} - {techSprintInfo.dates.end}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-white text-sm mb-4">Quick Links</h3>
+            <h3 className="font-semibold text-foreground text-sm mb-4">Quick Links</h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-white/40 text-xs hover:text-cyan-400 transition-colors"
+                    className="text-foreground/40 text-xs hover:text-cyan-400 transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -89,17 +89,17 @@ export function Footer() {
           <div>
             <h3 className="font-semibold text-white text-sm mb-4">Contact</h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-2">
+              <li className="flex items-start gap-2 text-foreground/40 text-xs">
                 <MapPin className="w-3 h-3 text-cyan-400 mt-1 flex-shrink-0" />
-                <span className="text-white/40 text-xs">{collegeInfo.shortName}, Nandyal</span>
+                <span>{collegeInfo.shortName}, Nandyal</span>
               </li>
-              <li className="flex items-center gap-2">
+              <li className="flex items-center gap-2 text-foreground/40 text-xs">
                 <Phone className="w-3 h-3 text-cyan-400 flex-shrink-0" />
-                <span className="text-white/40 text-xs">{collegeInfo.phone}</span>
+                <span>{collegeInfo.phone}</span>
               </li>
-              <li className="flex items-center gap-2">
+              <li className="flex items-center gap-2 text-foreground/40 text-xs">
                 <Mail className="w-3 h-3 text-cyan-400 flex-shrink-0" />
-                <span className="text-white/40 text-xs">{collegeInfo.email}</span>
+                <span>{collegeInfo.email}</span>
               </li>
             </ul>
           </div>
@@ -116,9 +116,9 @@ export function Footer() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-colors group"
+                    className="w-9 h-9 rounded-lg bg-foreground/[0.03] border border-foreground/[0.06] flex items-center justify-center hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-colors group"
                   >
-                    <Icon className="w-4 h-4 text-white/40 group-hover:text-cyan-400 transition-colors" />
+                    <Icon className="w-4 h-4 text-foreground/40 group-hover:text-cyan-400 transition-colors" />
                   </a>
                 ) : null;
               })}
@@ -129,7 +129,7 @@ export function Footer() {
         {/* Developer Credits */}
         <div className="mt-8 pt-6 border-t border-white/[0.06]">
           {/* Title */}
-          <p className="text-center text-[10px] text-white/40 uppercase tracking-widest mb-4">
+          <p className="text-center text-[10px] text-foreground/40 uppercase tracking-widest mb-4 font-bold">
             Developed by
           </p>
 
@@ -157,20 +157,20 @@ export function Footer() {
               ].map((dev) => ({ ...dev, key: `${repeatIndex}-${dev.name}` }))).map((dev) => (
                 <div
                   key={dev.key}
-                  className="flex items-center gap-6 px-8 py-5 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-500/50 hover:bg-cyan-500/5 hover:scale-105 transition-all duration-500 shrink-0 snap-center group"
+                  className="flex items-center gap-6 px-8 py-5 rounded-2xl bg-foreground/[0.03] border border-foreground/[0.08] hover:border-cyan-500/50 hover:bg-cyan-500/5 hover:scale-105 transition-all duration-500 shrink-0 snap-center group"
                 >
                   {/* Name */}
-                  <span className="text-white text-base font-bold whitespace-nowrap group-hover:text-cyan-400 transition-colors">{dev.name}</span>
+                  <span className="text-foreground text-base font-bold whitespace-nowrap group-hover:text-cyan-400 transition-colors">{dev.name}</span>
 
                   {/* Social Links */}
                   <div className="flex items-center gap-2">
-                    <a href={`mailto:${dev.email}`} className="w-8 h-8 rounded-lg flex items-center justify-center text-white/40 hover:text-cyan-400 hover:bg-cyan-400/10 transition-all" title="Email">
+                    <a href={`mailto:${dev.email}`} className="w-8 h-8 rounded-lg flex items-center justify-center text-foreground/40 hover:text-cyan-400 hover:bg-cyan-400/10 transition-all font-bold" title="Email">
                       <Mail className="w-4 h-4" />
                     </a>
-                    <a href={dev.linkedin} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg flex items-center justify-center text-white/40 hover:text-blue-400 hover:bg-blue-400/10 transition-all" title="LinkedIn">
+                    <a href={dev.linkedin} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg flex items-center justify-center text-foreground/40 hover:text-blue-400 hover:bg-blue-400/10 transition-all" title="LinkedIn">
                       <Linkedin className="w-4 h-4" />
                     </a>
-                    <a href={dev.github} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all" title="GitHub">
+                    <a href={dev.github} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg flex items-center justify-center text-foreground/40 hover:text-foreground hover:bg-foreground/10 transition-all" title="GitHub">
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                       </svg>
@@ -182,11 +182,11 @@ export function Footer() {
           </div>
 
           {/* Copyright */}
-          <div className="mt-6 pt-4 border-t border-white/[0.04] flex flex-col sm:flex-row justify-between items-center gap-2">
-            <p className="text-white/20 text-[10px]">
+          <div className="mt-6 pt-4 border-t border-foreground/[0.04] flex flex-col sm:flex-row justify-between items-center gap-2 font-medium">
+            <p className="text-foreground/20 text-[10px]">
               © 2026 TechSprint. {collegeInfo.department}
             </p>
-            <p className="text-white/15 text-[10px]">
+            <p className="text-foreground/15 text-[10px]">
               {collegeInfo.name}
             </p>
           </div>

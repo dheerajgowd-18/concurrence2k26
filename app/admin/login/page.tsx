@@ -33,19 +33,19 @@ export default function AdminLoginPage() {
     };
 
     return (
-        <div className="min-h-screen bg-black flex items-center justify-center px-4">
+        <div className="min-h-screen bg-black text-white flex items-center justify-center px-4 relative">
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="max-w-md w-full"
             >
-                <div className="bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
+                <div className="bg-white/[0.02] border border-white/5 backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
                     <div className="text-center mb-8">
                         <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(6,182,212,0.3)]">
                             <Lock className="w-8 h-8 text-white" />
                         </div>
                         <h1 className="text-2xl font-bold">Admin Portal</h1>
-                        <p className="text-white/40 text-sm">TechSprint 2K26 Central Dashboard</p>
+                        <p className="text-white/40 text-sm font-medium">TechSprint 2K26 Central Dashboard</p>
                     </div>
 
                     <form onSubmit={handleLogin} className="space-y-6">
@@ -89,7 +89,7 @@ export default function AdminLoginPage() {
                         <button
                             disabled={loading}
                             type="submit"
-                            className="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50 shadow-[0_5px_20px_rgba(6,182,212,0.2)]"
+                            className="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50 shadow-[0_5px_20px_rgba(6,182,212,0.2)] text-white"
                         >
                             {loading ? <><Loader2 className="w-5 h-5 animate-spin" /> Logging in...</> : "Enter Dashboard"}
                         </button>
