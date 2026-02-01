@@ -128,10 +128,10 @@ export default function RegisterPage() {
             <div className="fixed top-0 left-0 right-0 h-20 bg-black/50 backdrop-blur-xl border-b border-white/5 z-50 flex items-center justify-between px-4 sm:px-12">
                 <div className="flex items-center gap-6">
                     <Link href="/" className="flex items-center gap-2 group transition-transform hover:scale-105 active:scale-95">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:rotate-12 transition-transform duration-300">
-                            <Sparkles className="w-5 h-5 text-white" />
+                        <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden bg-white/5 border border-white/10 group-hover:rotate-12 transition-transform duration-300">
+                            <Image src="/college-logo.png" alt="RGM Logo" width={40} height={40} className="object-contain p-1" />
                         </div>
-                        <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent" style={{ fontFamily: "var(--font-orbitron), sans-serif" }}>RIPPLE</span>
+                        <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent" style={{ fontFamily: "var(--font-orbitron), sans-serif" }}>TECHSPRINT</span>
                     </Link>
                     <div className="h-6 w-px bg-white/10 hidden sm:block" />
                     <Link href="/admin/login" className="hidden sm:flex items-center gap-2 text-white/40 hover:text-white transition-all text-xs font-bold uppercase tracking-widest group">

@@ -41,7 +41,7 @@ export async function sendApprovalEmail(
             ${whatsappLink ? `
             <p>You can now join the official WhatsApp group to stay updated:</p>
             <div style="margin: 30px 0;">
-              <a href="${whatsappLink}" style="background: #25D366; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+              <a href="${whatsappLink}" style="background: #25D366; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; display: inline-block;">
                 JOIN WHATSAPP GROUP
               </a>
             </div>
@@ -99,14 +99,8 @@ export async function sendRejectionEmail(toEmail: string, name: string) {
                 html: `
           <div style="font-family: sans-serif; max-width: 600px; margin: auto; line-height: 1.6;">
             <p>Hello ${name},</p>
-            <p>Sorry, your payment for TechSprint 2K26 was <strong>rejected</strong>. Please re-enter the details on the website.</p>
-            <p>This might have happened if the payment details were not correct, or we may have made a mistake in rejecting your registration. If it was our mistake, please forgive us and don't mind.</p>
-            <p>Please try registering again with the correct transaction details.</p>
-            <div style="margin: 30px 0;">
-              <a href="https://ripple2k26.vercel.app/register" style="background: #ef4444; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold;">
-                RE-REGISTER NOW
-              </a>
-            </div>
+            <p>We are writing to inform you that your registration for TechSprint 2K26 has been <strong>rejected</strong> due to invalid details.</p>
+            <p>If this was a mistake on our part, we sincerely apologize. Please feel free to re-register with the correct details.</p>
             <hr />
             <p style="font-size: 12px; color: #666;">This is an automated message. Please do not reply.</p>
           </div>

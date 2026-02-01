@@ -80,8 +80,8 @@ export default function SubDashboard() {
             });
 
             setUsers(sortedData);
-        } catch (err) {
-            console.error(err);
+        } catch (err: any) {
+            console.error("Error fetching users:", err.message || err);
         } finally {
             setLoading(false);
         }

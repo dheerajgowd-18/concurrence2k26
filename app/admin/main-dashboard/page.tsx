@@ -560,16 +560,10 @@ export default function MainDashboard() {
                                 <td className="py-4 px-4">
                                     <div className="relative group/status flex justify-center">
                                         <StatusBadge status={u.status} />
-                                        <div className="absolute top-full left-1/2 -translate-x-1/2 hidden group-hover/status:flex flex-col bg-neutral-900 border border-white/10 rounded-lg shadow-2xl z-[100] p-1 mt-1">
-                                            {['PENDING', 'APPROVED', 'REJECTED'].map(s => (
-                                                <button
-                                                    key={s}
-                                                    onClick={() => handleInlineSave(u.id, 'status', s)}
-                                                    className="px-3 py-1.5 text-[10px] font-bold text-white/60 hover:text-white hover:bg-white/5 rounded transition-all whitespace-nowrap"
-                                                >
-                                                    {s}
-                                                </button>
-                                            ))}
+                                        <div className="absolute top-full left-1/2 -translate-x-1/2 hidden group-hover/status:flex flex-col bg-neutral-900 border border-white/10 rounded-lg shadow-2xl z-[100] p-1 mt-1 min-w-[120px]">
+                                            <div className="px-3 py-2 text-[10px] text-white/40 text-center border-b border-white/5 mb-1">
+                                                Status managed by Sub-Admins
+                                            </div>
                                         </div>
                                     </div>
                                 </td>

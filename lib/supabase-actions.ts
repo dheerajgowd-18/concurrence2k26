@@ -81,7 +81,9 @@ export async function updateStatus(
 }
 
 export async function getActiveGroupLink(college: string) {
-    const normalizedCollege = college === "RGM College" ? "RGM" : "OTHERS";
+    // Robust check: contains "RGM" (case-insensitive) -> "RGM", else -> "OTHERS"
+    const normalizedCollege =
+        college && college.toUpperCase().includes("RGM") ? "RGM" : "OTHERS";
     const { data, error } = await supabase
         .from("group_links")
         .select("whatsapp_link")
@@ -89,8 +91,13 @@ export async function getActiveGroupLink(college: string) {
         .eq("active", true)
         .limit(1);
 
-    if (error) throw error;
-    return data[0]?.whatsapp_link || null;
+    if (error) {
+        console.error("Error fetching group link:", error);
+        // Fallback to the provided link if DB fetch fails
+        return "https://chat.whatsapp.com/Dto50B4dSfyIiQuqG6BKCs?mode=gi_t";
+    }
+
+    return data[0]?.whatsapp_link || "https://chat.whatsapp.com/Dto50B4dSfyIiQuqG6BKCs?mode=gi_t";
 }
 
 export async function getActiveEmailAccounts() {
