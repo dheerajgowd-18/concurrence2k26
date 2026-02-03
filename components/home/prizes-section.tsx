@@ -57,14 +57,15 @@ export function PrizesSection() {
                                 )}>
                                     {/* Rank Badge */}
                                     <div className={cn(
-                                        "flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center font-bold text-lg",
+                                        "flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center font-bold px-1 text-center leading-none",
+                                        prize.position === "consolation" ? "text-lg" : "text-lg",
                                         isWinner
                                             ? "bg-gradient-to-br from-amber-400 to-yellow-500 text-black"
                                             : isRunnerUp
                                                 ? "bg-gradient-to-br from-slate-300 to-slate-400 text-slate-800"
                                                 : "bg-gradient-to-br from-amber-700/80 to-amber-800 text-amber-200"
                                     )}>
-                                        {isWinner ? "1st" : isRunnerUp ? "2nd" : "3rd"}
+                                        {isWinner ? "1st" : isRunnerUp ? "2nd" : prize.position === "consolation" ? "4th" : "3rd"}
                                     </div>
 
                                     {/* Content */}

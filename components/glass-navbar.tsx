@@ -41,7 +41,7 @@ export function GlassNavbar() {
                             className="text-xs sm:text-sm font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"
                             style={{ fontFamily: "var(--font-orbitron), sans-serif" }}
                         >
-                            TECHSPRINT
+                            HACKATHON
                         </span>
                     </Link>
 

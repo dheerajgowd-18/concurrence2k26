@@ -21,6 +21,8 @@ export async function createUser(userData: {
     phone: string;
     college: string;
     branch: string; // Added branch
+    year: string; // Added year
+    tshirt_size: string; // Added t-shirt size
     transaction_id: string;
     screenshot_url: string;
     assigned_qr_id: string;

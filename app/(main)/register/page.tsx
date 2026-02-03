@@ -26,6 +26,8 @@ export default function RegisterPage() {
         college: "RGM",
         otherCollege: "",
         branch: "", // Added for branch selection
+        year: "", // Added for year selection
+        tshirt_size: "", // Added T-Shirt Size
         transaction_id: "",
         screenshot: null as File | null,
     });
@@ -62,6 +64,8 @@ export default function RegisterPage() {
         if (formData.phone.length < 10) return "Phone number must be at least 10 digits.";
         if (formData.college === 'OTHERS' && !formData.otherCollege.trim()) return "Enter your college name.";
         if (!formData.branch) return "Select your branch.";
+        if (!formData.year) return "Select your year.";
+        if (!formData.tshirt_size) return "Select your T-Shirt size.";
         return null;
     };
 
@@ -109,6 +113,8 @@ export default function RegisterPage() {
                 phone: formData.phone,
                 college: finalCollege,
                 branch: formData.branch,
+                year: formData.year,
+                tshirt_size: formData.tshirt_size,
                 transaction_id: formData.transaction_id,
                 screenshot_url: screenshot_url,
                 assigned_qr_id: assignedQR.id,
@@ -131,7 +137,7 @@ export default function RegisterPage() {
                         <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden bg-white/5 border border-white/10 group-hover:rotate-12 transition-transform duration-300">
                             <Image src="/college-logo.png" alt="RGM Logo" width={40} height={40} className="object-contain p-1" />
                         </div>
-                        <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent" style={{ fontFamily: "var(--font-orbitron), sans-serif" }}>TECHSPRINT</span>
+                        <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent" style={{ fontFamily: "var(--font-orbitron), sans-serif" }}>HACKATHON</span>
                     </Link>
                     <div className="h-6 w-px bg-white/10 hidden sm:block" />
                     <Link href="/admin/login" className="hidden sm:flex items-center gap-2 text-white/40 hover:text-white transition-all text-xs font-bold uppercase tracking-widest group">
@@ -239,6 +245,44 @@ export default function RegisterPage() {
                                                 <option key={b} value={b} className="bg-neutral-900">{b}</option>
                                             ))}
                                         </select>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label className="text-xs uppercase tracking-widest text-white/40 ml-1">Select Year</label>
+                                        <select
+                                            value={formData.year}
+                                            onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 outline-none focus:border-cyan-500/50 transition-all text-white/80 appearance-none cursor-pointer"
+                                        >
+                                            <option value="" disabled className="bg-neutral-900">Select Year</option>
+                                            {["1", "2", "3", "4"].map(y => (
+                                                <option key={y} value={y} className="bg-neutral-900">{y} Year</option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label className="text-xs uppercase tracking-widest text-white/40 ml-1">T-Shirt Size</label>
+                                        <select
+                                            value={formData.tshirt_size}
+                                            onChange={(e) => setFormData({ ...formData, tshirt_size: e.target.value })}
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 outline-none focus:border-cyan-500/50 transition-all text-white/80 appearance-none cursor-pointer"
+                                        >
+                                            <option value="" disabled className="bg-neutral-900">Select Size</option>
+                                            {["S", "M", "L", "XL", "XXL"].map(s => (
+                                                <option key={s} value={s} className="bg-neutral-900">{s}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    <div className="bg-cyan-500/10 border border-cyan-500/20 p-4 rounded-xl flex gap-3">
+                                        <Building2 className="w-5 h-5 text-cyan-500 shrink-0 mt-0.5" />
+                                        <div className="space-y-1">
+                                            <p className="text-sm font-bold text-cyan-400">Accommodation & Food</p>
+                                            <p className="text-xs text-cyan-500/80 leading-relaxed">
+                                                Accommodation and food will be provided for the night of the event.
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
 

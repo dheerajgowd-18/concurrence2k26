@@ -21,12 +21,12 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "TechSprint 2K26 - 24 Hour Hackathon | Win an Internship",
+  title: "Hackathon 2K26 - 24 Hour Hackathon | Win an Internship",
   description:
-    "Join TechSprint 2K26, a 24-hour national level hackathon. Compete in IdeateX and CodeJam phases for a chance to win an internship at a top tech company!",
+    "Join Hackathon 2K26, a 24-hour national level hackathon. Compete in IdeateX and CodeJam phases for a chance to win an internship at a top tech company!",
   keywords: [
     "hackathon",
-    "TechSprint 2026",
+    "Hackathon 2026",
     "coding competition",
     "ideathon",
     "codathon",
@@ -34,12 +34,12 @@ export const metadata: Metadata = {
     "RGMCET",
   ],
   openGraph: {
-    title: "TechSprint 2K26 - 24 Hour Hackathon | Win an Internship",
+    title: "Hackathon 2K26 - 24 Hour Hackathon | Win an Internship",
     description:
-      "Join TechSprint 2K26, a 24-hour national level hackathon. IdeateX → CodeJam → Win an Internship!",
+      "Join Hackathon 2K26, a 24-hour national level hackathon. IdeateX → CodeJam → Win an Internship!",
     type: "website",
   },
-  generator: 'TechSprint'
+  generator: 'Hackathon'
 };
 
 export const viewport: Viewport = {

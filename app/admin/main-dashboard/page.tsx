@@ -167,6 +167,8 @@ export default function MainDashboard() {
             { header: "Email", key: "email", width: 25 },
             { header: "Phone", key: "phone", width: 15 },
             { header: "College", key: "college", width: 10 },
+            { header: "Branch", key: "branch", width: 10 },
+            { header: "Year", key: "year", width: 10 },
             { header: "Transaction ID", key: "transaction_id", width: 20 },
             { header: "Status", key: "status", width: 10 },
             { header: "Screenshot URL", key: "screenshot_url", width: 50 },
@@ -494,7 +496,7 @@ export default function MainDashboard() {
                         </div>
                     )}
                     {activeTab === 'USERS' && <TableLayout
-                        headers={['Profile', 'Contact (Edit)', 'College', 'Branch', 'Status', 'Payment Proof', 'UTR (Edit)', 'Joined At', 'Actions']}
+                        headers={['Profile', 'Contact (Edit)', 'College', 'Branch', 'Year', 'T-Shirt', 'Status', 'Payment Proof', 'UTR (Edit)', 'Joined At', 'Actions']}
                         data={filteredUsers}
                         renderRow={(u: any) => (
                             <tr key={u.id} className="border-b border-white/5 hover:bg-white/[0.01]">
@@ -556,6 +558,31 @@ export default function MainDashboard() {
                                             {u.branch || 'N/A'}
                                         </span>
                                     )}
+                                </td>
+                                <td className="py-4 px-4 text-[10px] text-white/60">
+                                    {editingId === u.id && editField === 'year' ? (
+                                        <select
+                                            autoFocus
+                                            value={editValue}
+                                            onChange={(e) => handleInlineSave(u.id, 'year', e.target.value)}
+                                            onBlur={() => setEditingId(null)}
+                                            className="bg-black/50 border border-orange-500/50 rounded px-1 py-1 w-full outline-none text-[10px]"
+                                        >
+                                            <option value="">Select</option>
+                                            {["1", "2", "3", "4"].map(y => (
+                                                <option key={y} value={y}>{y}</option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <span onDoubleClick={() => { setEditingId(u.id); setEditField('year'); setEditValue(u.year || ""); }} className="cursor-pointer hover:text-orange-400 bg-white/5 px-2 py-0.5 rounded">
+                                            {u.year || 'N/A'}
+                                        </span>
+                                    )}
+                                </td>
+                                <td className="py-4 px-4 text-[10px] text-white/60">
+                                    <span className="bg-white/5 px-2 py-0.5 rounded border border-white/10 font-mono">
+                                        {u.tshirt_size || 'N/A'}
+                                    </span>
                                 </td>
                                 <td className="py-4 px-4">
                                     <div className="relative group/status flex justify-center">

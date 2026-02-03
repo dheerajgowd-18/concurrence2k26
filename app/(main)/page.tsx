@@ -3,6 +3,7 @@ import { PhasesSection } from "@/components/home/phases-section";
 import { JudgesCarousel } from "@/components/home/judges-carousel";
 import { PrizesSection } from "@/components/home/prizes-section";
 import { About } from "@/components/home/about";
+import { Gallery } from "@/components/home/gallery";
 
 export default function HomePage() {
   return (
@@ -11,6 +12,7 @@ export default function HomePage() {
       <PhasesSection />
       <JudgesCarousel />
       <PrizesSection />
+      <Gallery />
       <About />
     </>
   );

@@ -22,17 +22,7 @@ const socialIcons = {
 };
 
 export function Footer() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleInteraction = () => {
-    setIsPaused(true);
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => {
-      setIsPaused(false);
-    }, 3000); // Resume after 3s of no interaction
-  };
+  // Removed unused state and interaction handler
 
   return (
     <footer className="border-t border-foreground/10 bg-background/50 backdrop-blur-xl">
@@ -55,7 +45,7 @@ export function Footer() {
                   className="block text-base font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"
                   style={{ fontFamily: "var(--font-orbitron), sans-serif" }}
                 >
-                  TECHSPRINT
+                  HACKATHON
                 </span>
                 <span className="text-[10px] text-foreground/30 font-bold uppercase tracking-widest">2K26</span>
               </div>
@@ -102,6 +92,22 @@ export function Footer() {
                 <span>{collegeInfo.email}</span>
               </li>
             </ul>
+
+            <h3 className="font-semibold text-white text-sm mt-6 mb-4">Student Coordinators</h3>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-2 text-foreground/40 text-xs">
+                <Phone className="w-3 h-3 text-cyan-400 flex-shrink-0" />
+                <span>Syed Aman: 9966466951</span>
+              </li>
+              <li className="flex items-center gap-2 text-foreground/40 text-xs">
+                <Phone className="w-3 h-3 text-cyan-400 flex-shrink-0" />
+                <span>B.MD.Rafi: 7995399545</span>
+              </li>
+              <li className="flex items-center gap-2 text-foreground/40 text-xs">
+                <Phone className="w-3 h-3 text-cyan-400 flex-shrink-0" />
+                <span>Y. Javya: 6302053116</span>
+              </li>
+            </ul>
           </div>
 
           {/* Social */}
@@ -126,70 +132,14 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Developer Credits */}
-        <div className="mt-8 pt-6 border-t border-white/[0.06]">
-          {/* Title */}
-          <p className="text-center text-[10px] text-foreground/40 uppercase tracking-widest mb-4 font-bold">
-            Developed by
+        {/* Copyright */}
+        <div className="mt-12 pt-4 border-t border-foreground/[0.04] flex flex-col sm:flex-row justify-between items-center gap-2 font-medium">
+          <p className="text-foreground/20 text-[10px]">
+            © 2026 Hackathon. {collegeInfo.department}
           </p>
-
-          {/* Scrollable Container - pause on hover/touch */}
-          <div
-            className="relative overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-            onTouchStart={handleInteraction}
-            onScroll={handleInteraction}
-          >
-            {/* Scrollable track with auto-scroll - pauses on interaction */}
-            <div
-              ref={scrollRef}
-              className="flex gap-4 sm:gap-6 py-4 animate-scroll-slow"
-              style={{
-                animationPlayState: isPaused ? 'paused' : 'running',
-                width: 'max-content'
-              }}
-            >
-              {/* Duplicate devs for infinite scroll effect */}
-              {[...Array(6)].flatMap((_, repeatIndex) => [
-                { name: "Dheeraj Gowd", email: "dheerajgowd@example.com", linkedin: "https://linkedin.com/in/dheerajgowd", github: "https://github.com/dheerajgowd-18" },
-                { name: "Akshith", email: "akshith@example.com", linkedin: "https://linkedin.com/in/akshith", github: "https://github.com/akshith" },
-              ].map((dev) => ({ ...dev, key: `${repeatIndex}-${dev.name}` }))).map((dev) => (
-                <div
-                  key={dev.key}
-                  className="flex items-center gap-6 px-8 py-5 rounded-2xl bg-foreground/[0.03] border border-foreground/[0.08] hover:border-cyan-500/50 hover:bg-cyan-500/5 hover:scale-105 transition-all duration-500 shrink-0 snap-center group"
-                >
-                  {/* Name */}
-                  <span className="text-foreground text-base font-bold whitespace-nowrap group-hover:text-cyan-400 transition-colors">{dev.name}</span>
-
-                  {/* Social Links */}
-                  <div className="flex items-center gap-2">
-                    <a href={`mailto:${dev.email}`} className="w-8 h-8 rounded-lg flex items-center justify-center text-foreground/40 hover:text-cyan-400 hover:bg-cyan-400/10 transition-all font-bold" title="Email">
-                      <Mail className="w-4 h-4" />
-                    </a>
-                    <a href={dev.linkedin} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg flex items-center justify-center text-foreground/40 hover:text-blue-400 hover:bg-blue-400/10 transition-all" title="LinkedIn">
-                      <Linkedin className="w-4 h-4" />
-                    </a>
-                    <a href={dev.github} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg flex items-center justify-center text-foreground/40 hover:text-foreground hover:bg-foreground/10 transition-all" title="GitHub">
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Copyright */}
-          <div className="mt-6 pt-4 border-t border-foreground/[0.04] flex flex-col sm:flex-row justify-between items-center gap-2 font-medium">
-            <p className="text-foreground/20 text-[10px]">
-              © 2026 TechSprint. {collegeInfo.department}
-            </p>
-            <p className="text-foreground/15 text-[10px]">
-              {collegeInfo.name}
-            </p>
-          </div>
+          <p className="text-foreground/15 text-[10px]">
+            {collegeInfo.name}
+          </p>
         </div>
       </div>
     </footer>
